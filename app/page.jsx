@@ -37,7 +37,7 @@ export default function Home() {
         </p>
         <Button onClick={
           async () => {
-            const res = await axios.get("/");
+            const res = await axios.get("http://localhost:8080/");
             console.log(res)
           }  
         } className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-1xl mt-8">Get Started</Button>

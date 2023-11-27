@@ -1,28 +1,15 @@
-const express = require('express');
-const next = require('next');
+const express = require('express')
+const cors = require('cors');
+const app = express();
 
-const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
-const handle = app.getRequestHandler();
+app.use(express.json())
+app.use(cors())
 
-app.prepare().then(() => {
-    const server = express();
+app.get('/', (req, res) => {
+    console.log("Server gets the request")
+    res.json({name: "Kieu Tien Thanh"})
+})
 
-    // Define custom routes or additional middleware if needed
-
-    // Default route handling
-    server.get('*', (req, res) => {
-        return handle(req, res);
-    });
-
-    server.get('/', (req, res) => {
-        res.json({name: "Kieu Tien Thanh", message: "Hello Client, I'm server"})
-    })
-
-    const PORT = process.env.PORT || 3000;
-
-    server.listen(PORT, (err) => {
-        if (err) throw err;
-        console.log(`> Ready on http://localhost:${PORT}`);
-    });
-});
+app.listen(8080, () => {
+    console.log("Listening on port 8080")
+})
