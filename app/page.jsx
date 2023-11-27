@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 
 export default function Home() {
@@ -34,7 +35,12 @@ export default function Home() {
           vivamus pellentesque maecenas natoque. Enim pellentesque et faucibus
           mauris.
         </p>
-        <Button onClick={() => {router.push('./patients/')}} className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-1xl mt-8">Get Started</Button>
+        <Button onClick={
+          async () => {
+            const res = await axios.get("/");
+            console.log(res)
+          }  
+        } className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-1xl mt-8">Get Started</Button>
       </main>
     </div>
   );
