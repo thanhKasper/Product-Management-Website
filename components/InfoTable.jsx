@@ -63,7 +63,7 @@ const invoices = [
   - links: list of link used for forwarding to suitable path
  */
 }
-const HospitalTable = ({ headerList, contents, links }) => {
+const InfoTable = ({ headerList, contents, links }) => {
   return (
     <div className="mt-2">
       <Table>
@@ -109,4 +109,4 @@ const HospitalTable = ({ headerList, contents, links }) => {
   );
 };
 
-export default HospitalTable;
+export default InfoTable;

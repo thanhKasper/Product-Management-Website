@@ -1,22 +1,25 @@
-'use client'
+"use client";
 
-import React from 'react'
+import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-const SidebarOpt = ({text, bgColor, setActiveNav, children}) => {
+const SidebarOpt = ({ text, bgColor, setActiveNav, link, children }) => {
+  const router = useRouter()
   return (
     <div
-      onClick={setActiveNav}
+      onClick={() => {router.push(link)}}
       className={`flex items-center w-full gap-3 px-4 py-2 rounded-md ${bgColor}`}
     >
       {children}
-      <li
-        className="select-none text-xl cursor-auto"
-        style={{ cursor: "default" }}
+      <Link
+        href={link}
+        className="select-none text-xl cursor-default text-white"
       >
         {text}
-      </li>
+      </Link>
     </div>
   );
-}
+};
 
-export default SidebarOpt
+export default SidebarOpt;
