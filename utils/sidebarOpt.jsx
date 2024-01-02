@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const SidebarOpt = ({ text, bgColor, setActiveNav, link, children }) => {
+const SidebarOpt = ({text, bgColor, textColor, link, children }) => {
   const router = useRouter()
   return (
     <div
@@ -14,7 +14,7 @@ const SidebarOpt = ({ text, bgColor, setActiveNav, link, children }) => {
       {children}
       <Link
         href={link}
-        className="select-none text-xl cursor-default text-white"
+        className={`select-none text-xl cursor-default ${textColor}`}
       >
         {text}
       </Link>
