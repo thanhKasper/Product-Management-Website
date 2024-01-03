@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import { Button, ButtonGroup, useRadioGroup } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <div className="h-[100vh] flex flex-col">
       <nav className="bg-primary px-10 flex justify-between items-center py-3">
@@ -17,7 +19,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="flex items-center gap-6">
-          <Button bgColor={"#F0A824"} _hover={{ bgColor: "#FFD993" }}>
+          <Button onClick={()=>{router.push('/login')}} bgColor={"#F0A824"} _hover={{ bgColor: "#FFD993" }}>
             Sign In
           </Button>
         </div>

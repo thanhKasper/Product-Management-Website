@@ -1,5 +1,6 @@
 import './globals.css'
 import { Providers } from './providers'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
 export const metadata = {
   title: 'L&F',
@@ -9,7 +10,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body><Providers>{children}</Providers></body>
-    </html>
+      <body>
+        <AppRouterCacheProvider>
+          <Providers>{children}</Providers>
+        </AppRouterCacheProvider>
+      </body>
+    </html >
   )
 }

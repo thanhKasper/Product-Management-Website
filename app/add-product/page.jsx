@@ -3,44 +3,64 @@
 import Sidebar from "@/components/sidebar";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import AddPatientForm from "@/components/AddPatientForm";
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  Input,
+  Button
+} from "@chakra-ui/react";
 
-const InpatientPage = () => {
+const AddProduct = () => {
   const router = useRouter();
   const [navActive, setnavActive] = useState("Patient");
   return (
     <section className="flex">
-      <Sidebar curNav={navActive} onSetActive={setnavActive} />
-      <div className="w-full px-8 pt-6">
-        <div className="flex justify-between items-center">
-          <h1 className="font-semibold text-5xl text-primary">
-            Patient Details
-          </h1>
-          <button
-            onClick={() => {
-              router.push("../patients");
-            }}
-            className="flex items-center gap-3 bg-secondary px-4 rounded-full font-semibold text-white h-fit py-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="1em"
-              viewBox="0 0 448 512"
-            >
-              <path
-                fill="white"
-                d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
-              />
-            </svg>
-            Back
-          </button>
-        </div>
-        <main className="flex justify-center mt-4">
-          <AddPatientForm />
-        </main>
-      </div>
+      <Sidebar currentPage={"Product"} />
+      <main className="px-8 py-4 flex-grow bg-secondary-100">
+        <h1 className="font-bold text-5xl text-primary">Add/Edit Product</h1>
+        <form action="" className="mt-10 flex flex-col gap-4 w-10/12 mx-auto">
+          <div className="flex gap-2">
+            <FormControl sx={{ width: "20%" }}>
+              <FormLabel>Product ID</FormLabel>
+              <Input type="text" bgColor="white" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Product Name</FormLabel>
+              <Input type="text" bgColor="white" />
+            </FormControl>
+          </div>
+          <div className="flex gap-2">
+            <FormControl sx={{ width: "60%" }}>
+              <FormLabel>Size</FormLabel>
+              <Input type="text" bgColor="white" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Provider</FormLabel>
+              <Input type="text" bgColor="white" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Quantity</FormLabel>
+              <Input type="number" bgColor="white" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Price</FormLabel>
+              <Input type="number" bgColor="white" />
+            </FormControl>
+          </div>
+          <FormControl>
+            <FormLabel>Type/Genre</FormLabel>
+            <Input type="text" bgColor="white" />
+          </FormControl>
+          <div className="flex justify-end gap-2">
+            <Button colorScheme="red" onClick={() => {router.push('/products')}}>Cancel</Button>
+            <Button colorScheme="green">Submit</Button>
+          </div>
+        </form>
+      </main>
     </section>
   );
 };
 
-export default InpatientPage;
+export default AddProduct;
