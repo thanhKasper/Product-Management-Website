@@ -1,11 +1,20 @@
-import React from 'react'
-import { Input, Button } from '@chakra-ui/react';
+"use client";
+import React, { useState } from "react";
+import { Input, Button } from "@chakra-ui/react";
+import RangeWithOpt from "./RangeWithOpt";
+import DateRangeInput from "./DateRangeInput";
 
 const OrderSearchBar = () => {
+  const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
-        <div className="cursor-pointer w-56 bg-primary text-secondary-100 font-semibold flex flex-row gap-2 items-center px-3 rounded-s-md">
+        <div
+          onClick={() => {
+            setCloseAdvancedFilter(old => !old);
+          }}
+          className="cursor-pointer w-56 bg-primary text-secondary-100 font-semibold flex flex-row gap-2 items-center px-3 rounded-s-md"
+        >
           <img src="/filter.svg" alt="" />
           <p className="cursor-pointer">Advanced Filter</p>
         </div>
@@ -13,7 +22,7 @@ const OrderSearchBar = () => {
           bgColor="white"
           borderRadius="none"
           variant="outline"
-          placeholder="Search Orders"
+          placeholder="Search Customer's Order"
         />
         <Button
           borderTopLeftRadius={0}
@@ -25,68 +34,58 @@ const OrderSearchBar = () => {
           Search
         </Button>
       </div>
-      {/* <div
+      <div
         id="advanced-filter"
-        className="z-10 w-full h-80 bg-primary absolute rounded-md px-10 py-8"
+        className={`z-10 w-full bg-primary absolute rounded-md px-10  ${
+          closeAdvancedFilter
+            ? "h-0 p-0 transition-all"
+            : "transition-all h-80 py-8"
+        }`}
       >
-        <form action="">
-          <div className="flex items-center gap-4">
-            <label htmlFor="price" className="text-secondary-100 font-medium">
-              Price
-            </label>
-            <div className="flex gap-2">
-              <Input
-                borderRadius={4}
-                bgColor="white"
-                paddingX={2}
-                size="sx"
-                type="number"
-                width="6rem"
-                placeholder="from"
-              />
-              <p className="text-secondary-100">-</p>
-              <Input
-                borderRadius={4}
-                bgColor={"white"}
-                paddingX={2}
-                size="sx"
-                type="number"
-                width="6rem"
-                placeholder="to"
-              />
+        <form
+          action=""
+          className={`flex flex-col justify-between gap-5 h-full ${
+            closeAdvancedFilter ? "hidden" : ""
+          }`}
+        >
+          <div className="grid grid-cols-2">
+            <div>
+              <div>
+                <label htmlFor="" className="font-medium text-secondary-100">
+                  Order's Price
+                </label>
+                <RangeWithOpt />
+              </div>
+
+              <div className="flex flex-col mt-4 gap-1">
+                <label htmlFor="" className="text-secondary-100 font-medium">
+                  Quantity
+                </label>
+                <RangeWithOpt />
+              </div>
+            </div>
+            <div>
+              <div>
+                <label htmlFor="" className="font-medium text-secondary-100">
+                  Delivery Date
+                </label>
+                <DateRangeInput/>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            <label htmlFor="" className="text-secondary-100 font-medium">
-              Quantity
-            </label>
-            <div className="flex gap-2">
-              <Input
-                borderRadius={4}
-                bgColor="white"
-                paddingX={2}
-                size="sx"
-                type="number"
-                width="6rem"
-                placeholder="from"
-              />
-              <p className="text-secondary-100">-</p>
-              <Input
-                borderRadius={4}
-                bgColor={"white"}
-                paddingX={2}
-                size="sx"
-                type="number"
-                width="6rem"
-                placeholder="to"
-              />
-            </div>
+          <div className="flex justify-center gap-3">
+            <Button size="sm" colorScheme="red">
+              Reset
+            </Button>
+            <Button size="sm" colorScheme="messenger">
+              Apply
+            </Button>
           </div>
         </form>
-      </div> */}
+      </div>
     </div>
   );
-}
+};
 
-export default OrderSearchBar
+export default OrderSearchBar;
