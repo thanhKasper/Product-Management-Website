@@ -29,17 +29,15 @@ const CustomerPage = () => {
               <Tr>
                 <Th>CUSTOMER ID</Th>
                 <Th>CUSTOMER NAME</Th>
+                <Th>CUSTOMER EMAIL</Th>
               </Tr>
             </Thead>
             <Tbody>
               <Tr className="hover:bg-slate-300 cursor-pointer">
                 <Td className="cursor-pointer">US0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Kieu Tien Thanh
+                <Td>Kieu Tien Thanh</Td>
+                <Td>
+                  myemail@email.com
                 </Td>
               </Tr>
             </Tbody>
