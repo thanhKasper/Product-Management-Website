@@ -4,8 +4,6 @@ import { useState } from "react";
 import {
   Tag,
   TagLabel,
-  TagLeftIcon,
-  TagRightIcon,
   TagCloseButton,
 } from "@chakra-ui/react";
 
@@ -36,7 +34,7 @@ const MultivaluesAutocomplete = ({ label, options, isShowOpt }) => {
         <input
           id="genre-input"
           type="text"
-          className="flex-grow rounded-sm focus:outline-none min-w-28"
+          className="flex-grow rounded-sm focus:outline-none min-w-36"
           placeholder="Search Genre/Type"
         />
       </div>
@@ -55,7 +53,7 @@ const MultivaluesAutocomplete = ({ label, options, isShowOpt }) => {
                 return [...old];
               });
             }}
-            className="hover:bg-slate-300 p-1 rounded-md"
+            className="hover:bg-slate-300 px-2 py-1 rounded-md"
           >
             {val}
           </li>

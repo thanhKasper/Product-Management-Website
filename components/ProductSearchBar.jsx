@@ -6,7 +6,7 @@ import { useState } from "react";
 
 
 const ProductSearchBar = ({isShowOpt}) => {
-  const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(false)
+  const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true)
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
