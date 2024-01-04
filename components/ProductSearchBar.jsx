@@ -4,6 +4,7 @@ import React from "react";
 import { useState } from "react";
 import RangeWithOpt from "./RangeWithOpt";
 
+// Search bar need useState from its parent 
 const ProductSearchBar = ({ isShowOpt }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   return (

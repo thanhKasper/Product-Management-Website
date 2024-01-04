@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button, ButtonGroup, useRadioGroup } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -13,13 +13,19 @@ export default function Home() {
           <p className="text-secondary-100 text-3xl font-semibold">L&F Store</p>
           <Link
             href="./products"
-            className="text-secondary-100 font-semibold text-xl"
+            className="relative text-secondary-100 font-semibold text-xl w-fit after:absolute after:transtion-all after:w-0 after:h-0.5 after:bg-secondary-100 after:left-0 after:bottom-0 hover:after:w-full hover:after:transition-all"
           >
             Dashboard
           </Link>
         </div>
         <div className="flex items-center gap-6">
-          <Button onClick={()=>{router.push('/login')}} bgColor={"#F0A824"} _hover={{ bgColor: "#FFD993" }}>
+          <Button
+            onClick={() => {
+              router.push("/login");
+            }}
+            bgColor={"#F0A824"}
+            _hover={{ bgColor: "#FFD993" }}
+          >
             Sign In
           </Button>
         </div>

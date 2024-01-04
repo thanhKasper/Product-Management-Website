@@ -5,11 +5,9 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
 import Sidebar from "@/components/sidebar";
@@ -25,11 +23,10 @@ const ProductPage = () => {
       className="flex bg-secondary-100"
       onClick={e => {
         const eleID = e.target?.attributes[0]?.value;
-        if (eleID == 'genre-input') {
-          setIsShowOpt(true)
-        }
-        else {
-          setIsShowOpt(false)
+        if (eleID == "genre-input") {
+          setIsShowOpt(true);
+        } else {
+          setIsShowOpt(false);
         }
       }}
     >
@@ -48,7 +45,10 @@ const ProductPage = () => {
             Add Product
           </Button>
         </div>
+        
         <ProductSearchBar isShowOpt={isShowOpt} />
+
+        {/* Table will need an array of objects fetched from api */}
         <TableContainer marginTop={6} overflowY="scroll" maxWidth="100%">
           <Table variant="simple" bgColor={"white"} overflowY={"scroll"}>
             <Thead position="sticky" top={0} bgColor="white">
