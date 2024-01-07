@@ -1,11 +1,19 @@
 "use client";
 import React, { useState } from "react";
-import { Input, Button } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  FormControl,
+  FormLabel,
+  Checkbox,
+} from "@chakra-ui/react";
 import RangeWithOpt from "./RangeWithOpt";
 import DateRangeInput from "./DateRangeInput";
 
 const OrderSearchBar = () => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
+  const [form, setForm] = useState({});
+  console.log(form);
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
@@ -23,6 +31,9 @@ const OrderSearchBar = () => {
           borderRadius="none"
           variant="outline"
           placeholder="Search Customer's Order"
+          onChange={e =>
+            setForm(old => ({ ...old, searchKey: e.target.value }))
+          }
         />
         <Button
           borderTopLeftRadius={0}
@@ -54,14 +65,17 @@ const OrderSearchBar = () => {
                 <label htmlFor="" className="font-medium text-secondary-100">
                   Order's Price
                 </label>
-                <RangeWithOpt />
+                <RangeWithOpt inputName="order-price" onUpdateForm={setForm} />
               </div>
 
               <div className="flex flex-col mt-4 gap-1">
                 <label htmlFor="" className="text-secondary-100 font-medium">
                   Quantity
                 </label>
-                <RangeWithOpt />
+                <RangeWithOpt
+                  inputName="order-quantity"
+                  onUpdateForm={setForm}
+                />
               </div>
             </div>
             <div>
@@ -69,8 +83,21 @@ const OrderSearchBar = () => {
                 <label htmlFor="" className="font-medium text-secondary-100">
                   Delivery Date
                 </label>
-                <DateRangeInput/>
+                <DateRangeInput inputName="date" onUpdateForm={setForm} />
               </div>
+              <Checkbox
+                color="#D3EBF3"
+                className="mt-4 font-medium"
+                name="isDelivered"
+                onChange={e =>
+                  setForm(old => ({
+                    ...old,
+                    [e.target.name]: e.target.checked,
+                  }))
+                }
+              >
+                Is Delivered
+              </Checkbox>
             </div>
           </div>
 

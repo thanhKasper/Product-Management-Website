@@ -12,7 +12,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-const AddProduct = () => {
+const EditProduct = () => {
   const router = useRouter();
   const [navActive, setnavActive] = useState("Patient");
   const [newProduct, setNewProduct] = useState({});
@@ -170,4 +170,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

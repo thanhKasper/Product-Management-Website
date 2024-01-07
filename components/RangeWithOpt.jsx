@@ -3,8 +3,8 @@ import { Select } from "@chakra-ui/react";
 
 import React, { useState } from "react";
 
-const RangeWithOpt = () => {
-  const [filterOpt, setFilterOpt] = useState();
+const RangeWithOpt = ({onUpdateForm, inputName}) => {
+  const [filterOpt, setFilterOpt] = useState('from');
   let inputOpt;
   if (filterOpt == "from") {
     inputOpt = (
@@ -16,6 +16,10 @@ const RangeWithOpt = () => {
         type="number"
         width="6rem"
         placeholder="from"
+        name={`${inputName}-start`}
+        onChange={e => {
+          onUpdateForm(old => ({ ...old, [e.target.name]: e.target.value, [`${inputName}-end`]: null }));
+        }}
       />
     );
   } else if (filterOpt == "until")
@@ -28,6 +32,10 @@ const RangeWithOpt = () => {
         type="number"
         width="6rem"
         placeholder="to"
+        name={`${inputName}-end`}
+        onChange={e => {
+          onUpdateForm(old => ({ ...old, [e.target.name]: e.target.value, [`${inputName}-start`]: null }));
+        }}
       />
     );
   else
@@ -41,6 +49,10 @@ const RangeWithOpt = () => {
           type="number"
           width="6rem"
           placeholder="from"
+          name={`${inputName}-start`}
+          onChange={e => {
+            onUpdateForm(old => ({ ...old, [e.target.name]: e.target.value }));
+          }}
         />
         <p className="text-secondary-100">-</p>
         <Input
@@ -51,6 +63,10 @@ const RangeWithOpt = () => {
           type="number"
           width="6rem"
           placeholder="to"
+          name={`${inputName}-end`}
+          onChange={e => {
+            onUpdateForm(old => ({ ...old, [e.target.name]: e.target.value }));
+          }}
         />
       </>
     );
@@ -66,7 +82,7 @@ const RangeWithOpt = () => {
         }}
       >
         <option value="from">From</option>
-        <option value="until">Until</option>
+        <option value="until">To</option>
         <option value="between">Between</option>
       </Select>
       {inputOpt}

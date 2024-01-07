@@ -3,8 +3,8 @@ import { Input, Select } from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
 
-const DateRangeInput = () => {
-  const [filterOpt, setFilterOpt] = useState();
+const DateRangeInput = ({inputName, onUpdateForm}) => {
+  const [filterOpt, setFilterOpt] = useState('from');
   let inputOpt;
   if (filterOpt == "from") {
     inputOpt = (
@@ -16,6 +16,13 @@ const DateRangeInput = () => {
         type="date"
         width="7rem"
         placeholder="from"
+        onChange={e => (
+          onUpdateForm(old => ({
+            ...old,
+            [`${inputName}-start`]: e.target.value,
+            [`${inputName}-end`]: null
+          }))
+        )}
       />
     );
   } else if (filterOpt == "until")
@@ -28,6 +35,13 @@ const DateRangeInput = () => {
         type="date"
         width="7rem"
         placeholder="to"
+        onChange={e =>
+          onUpdateForm(old => ({
+            ...old,
+            [`${inputName}-start`]: null,
+            [`${inputName}-end`]: e.target.value,
+          }))
+        }
       />
     );
   else
@@ -41,6 +55,12 @@ const DateRangeInput = () => {
           type="date"
           width="7rem"
           placeholder="from"
+          onChange={e =>
+            onUpdateForm(old => ({
+              ...old,
+              [`${inputName}-start`]: e.target.value,
+            }))
+          }
         />
         <p className="text-secondary-100">-</p>
         <Input
@@ -51,6 +71,12 @@ const DateRangeInput = () => {
           type="date"
           width="7rem"
           placeholder="to"
+          onChange={e =>
+            onUpdateForm(old => ({
+              ...old,
+              [`${inputName}-end`]: e.target.value,
+            }))
+          }
         />
       </>
     );

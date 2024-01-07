@@ -1,8 +1,8 @@
 'use client'
 
-import React from 'react'
-import Sidebar from '@/components/sidebar';
-import OrderSearchBar from '@/components/OrderSearchBar';
+import React, { useState } from 'react'
+import Sidebar from '../../components/sidebar';
+import OrderSearchBar from '../../components/OrderSearchBar';
 import {
   Table,
   Thead,

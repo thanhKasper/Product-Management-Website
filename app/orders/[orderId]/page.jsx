@@ -1,5 +1,5 @@
 'use client'
-import Sidebar from '@/components/sidebar';
+import Sidebar from '../../../components/sidebar';
 import {
   Table,
   Thead,

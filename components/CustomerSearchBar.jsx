@@ -1,9 +1,10 @@
 import { Input, Button } from "@chakra-ui/react";
 import React, { useState } from "react";
-import RangeWithOpt from "./RangeWithOpt";
 
 const CustomerSearchBar = () => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
+  const [form, setForm] = useState({})
+  console.log(form)
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
@@ -21,6 +22,12 @@ const CustomerSearchBar = () => {
           borderRadius="none"
           variant="outline"
           placeholder="Search Customer's Order"
+          onChange={e => {
+            setForm(old => ({
+              ...old,
+              searchKey: e.target.value,
+            }));
+          }}
         />
         <Button
           borderTopLeftRadius={0}
@@ -52,14 +59,33 @@ const CustomerSearchBar = () => {
                 <label htmlFor="" className="font-medium text-secondary-100">
                   Address
                 </label>
-                <Input bgColor="white" className="mt-1" />
+                <Input
+                  bgColor="white"
+                  className="mt-1"
+                  onChange={e => {
+                    setForm(old => ({
+                      ...old,
+                      address: e.target.value,
+                    }));
+                  }}
+                />
               </div>
 
               <div className="flex flex-col mt-4 gap-1">
                 <label htmlFor="" className="text-secondary-100 font-medium">
                   Phone Number
                 </label>
-                <Input bgColor="white" className="mt-1" type='number'/>
+                <Input
+                  bgColor="white"
+                  className="mt-1"
+                  type="number"
+                  onChange={e => {
+                    setForm(old => ({
+                      ...old,
+                      phone: e.target.value,
+                    }));
+                  }}
+                />
               </div>
             </div>
             <div></div>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import SidebarOpt from "@/utils/sidebarOpt";
+import SidebarOpt from "../utils/sidebarOpt";
 
 const Sidebar = ({ currentPage }) => {
   return (

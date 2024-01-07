@@ -1,17 +1,12 @@
 "use client";
 import React from "react";
 import { useState } from "react";
-import {
-  Tag,
-  TagLabel,
-  TagCloseButton,
-} from "@chakra-ui/react";
+import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 
-const MultivaluesAutocomplete = ({ label, options, isShowOpt }) => {
+const MultivaluesAutocomplete = ({ options, isShowOpt, onUpdateForm }) => {
   const [optList, setOptList] = useState([]);
   return (
-    <div className="relative">
-      <label className="text-secondary-100 font-medium">{label}</label>
+    <div className="relative mt-2">
       <div className="rounded-md mt-1 p-2 gap-1 flex flex-wrap items-center bg-white max-w-lg has-[:focus]:outline has-[:focus]:outline-blue-600">
         {optList.map((val, idx) => (
           <Tag
@@ -24,23 +19,28 @@ const MultivaluesAutocomplete = ({ label, options, isShowOpt }) => {
             colorScheme="linkedin"
           >
             <TagLabel>{val}</TagLabel>
-            <TagCloseButton onClick={() => {
-                const newArr = optList.filter(genre => { return genre !== optList[idx]})
-                setOptList(newArr)
-            }}/>
+            <TagCloseButton
+              onClick={() => {
+                const newArr = optList.filter(genre => {
+                  return genre !== optList[idx];
+                });
+                setOptList(newArr);
+              }}
+            />
           </Tag>
         ))}
 
         <input
           id="genre-input"
           type="text"
-          className="flex-grow rounded-sm focus:outline-none min-w-36"
+          className="flex-grow rounded-sm focus:outline-none"
           placeholder="Search Genre/Type"
+          autoComplete="off"
         />
       </div>
       <ul
         id="recom-keyword"
-        className={`bg-secondary-100 w-full max-w-lg rounded-md px-2 py-2 max-h-48 overflow-y-scroll absolute z-10 ${
+        className={`bg-secondary-100 w-full max-w-lg rounded-md px-2 py-2 max-h-48 overflow-y-scroll absolute z-10 border-4 border-stone-300 ${
           !isShowOpt ? "hidden" : ""
         }`}
       >
@@ -49,8 +49,10 @@ const MultivaluesAutocomplete = ({ label, options, isShowOpt }) => {
             key={idx}
             onClick={() => {
               setOptList(old => {
-                if (old.indexOf(val) == -1) return [...old, val];
-                return [...old];
+                let newOptionList = [...old]
+                if (old.indexOf(val) == -1) newOptionList = [...old, val];
+                onUpdateForm(oldForm => ({...oldForm, genre: newOptionList}))
+                return newOptionList
               });
             }}
             className="hover:bg-slate-300 px-2 py-1 rounded-md"

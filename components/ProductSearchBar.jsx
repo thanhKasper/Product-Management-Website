@@ -4,9 +4,11 @@ import React from "react";
 import { useState } from "react";
 import RangeWithOpt from "./RangeWithOpt";
 
-// Search bar need useState from its parent 
+// Search bar need useState from its parent
 const ProductSearchBar = ({ isShowOpt }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
+  const [form, setForm] = useState({});
+  console.log(form);
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
@@ -24,6 +26,10 @@ const ProductSearchBar = ({ isShowOpt }) => {
           borderRadius="none"
           variant="outline"
           placeholder="Search Products"
+          name="searchKey"
+          onChange={e => {
+            setForm(old => ({ ...old, [e.target.name]: e.target.value }));
+          }}
         />
         <Button
           borderTopLeftRadius={0}
@@ -55,30 +61,34 @@ const ProductSearchBar = ({ isShowOpt }) => {
                 <label htmlFor="" className="font-medium text-secondary-100">
                   Price
                 </label>
-                <RangeWithOpt />
+                <RangeWithOpt onUpdateForm={setForm} inputName="price" />
               </div>
 
               <div className="flex flex-col mt-4 gap-1">
                 <label htmlFor="" className="text-secondary-100 font-medium">
                   Quantity
                 </label>
-                <RangeWithOpt />
+                <RangeWithOpt onUpdateForm={setForm} inputName="quantity" />
               </div>
             </div>
-
-            <MultivaluesAutocomplete
-              label="Genre/Type"
-              options={[
-                "Rom Com",
-                "Tragedy",
-                "Drama",
-                "Fantasy",
-                "Isekai",
-                "Shounen",
-                "Shoujo",
-              ]}
-              isShowOpt={isShowOpt}
-            />
+            <div>
+              <label htmlFor="" className="font-medium text-secondary-100">
+                Genre/Type
+              </label>
+              <MultivaluesAutocomplete
+                options={[
+                  "Rom Com",
+                  "Tragedy",
+                  "Drama",
+                  "Fantasy",
+                  "Isekai",
+                  "Shounen",
+                  "Shoujo",
+                ]}
+                isShowOpt={isShowOpt}
+                onUpdateForm={setForm}
+              />
+            </div>
           </div>
 
           <div className="flex justify-center gap-3">

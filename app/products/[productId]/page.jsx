@@ -1,12 +1,8 @@
 'use client'
-import Sidebar from "@/components/sidebar";
+import Sidebar from "../../../components/sidebar";
 import { Button } from "@chakra-ui/react";
 import {
-  Tag,
-  TagLabel,
-  TagLeftIcon,
-  TagRightIcon,
-  TagCloseButton,
+  Tag
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -47,7 +43,7 @@ const ProductDetail = () => {
           <p className="font-semibold">Quantity:</p>
           <p className="col-span-11">A number will appear</p>
         </div>
-        <Button className="mt-4" colorScheme="yellow">
+        <Button className="mt-4" colorScheme="yellow" onClick={() => router.push('/products/1/edit')}>
           Edit
         </Button>
         <Button className="ml-4 mt-4" colorScheme="red">

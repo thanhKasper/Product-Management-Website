@@ -10,8 +10,8 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
-import Sidebar from "@/components/sidebar";
-import ProductSearchBar from "@/components/ProductSearchBar";
+import Sidebar from '../../components/sidebar'
+import ProductSearchBar from '../../components/ProductSearchBar'
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

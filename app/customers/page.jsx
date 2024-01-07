@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import Sidebar from "@/components/sidebar";
-import CustomerSearchBar from "@/components/CustomerSearchBar";
+import Sidebar from "../../components/sidebar";
+import CustomerSearchBar from "../../components/CustomerSearchBar";
 import {
   Table,
   Thead,
@@ -20,7 +20,7 @@ const CustomerPage = () => {
       <Sidebar currentPage="Customer" />
       <main className="px-8 py-4 grow flex flex-col h-screen">
         <div className="flex justify-between items-center">
-          <h1 className="font-bold text-primary text-5xl">Products</h1>
+          <h1 className="font-bold text-primary text-5xl">Customers</h1>
         </div>
         <CustomerSearchBar />
         <TableContainer marginTop={6} overflowY="scroll" maxWidth="100%">
