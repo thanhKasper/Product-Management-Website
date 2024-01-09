@@ -37,7 +37,7 @@ const EditProduct = () => {
     >
       <Sidebar currentPage={"Product"} />
       <main className="px-8 py-4 flex-grow bg-secondary-100">
-        <h1 className="font-bold text-5xl text-primary">Add/Edit Product</h1>
+        <h1 className="font-bold text-5xl text-primary">Edit Product</h1>
         <form
           action=""
           className="mt-10 flex flex-col gap-4 w-10/12 mx-auto"
