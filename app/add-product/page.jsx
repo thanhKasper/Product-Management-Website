@@ -1,7 +1,7 @@
 "use client";
 
 import Sidebar from "@/components/sidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import MultivaluesAutocomplete from "@/components/MultivaluesAutocomplete";
 import {
@@ -11,6 +11,7 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
+import axios from "axios";
 
 const AddProduct = () => {
   const router = useRouter();
@@ -18,7 +19,17 @@ const AddProduct = () => {
   const [newProduct, setNewProduct] = useState({});
   const [isShowOpt, setShowOpt] = useState(false);
   const [multVal, setMultVal] = useState([]);
+  const [genre, setGenre] = useState()
   console.log(newProduct);
+  useEffect(() => {
+    const getGenre = async () => {
+      const res = await axios.get('http://localhost:8000/book/genre')
+      const genreList = res.data
+      console.log(genreList)
+      setGenre(genreList)
+    }
+    getGenre()
+  }, [])
   function handleSubmit(e) {
     e.preventDefault();
     console.log(e);
@@ -45,7 +56,7 @@ const AddProduct = () => {
           autoComplete="off"
         >
           <div className="flex gap-2">
-            <FormControl sx={{ width: "20%" }}>
+            <FormControl sx={{ width: "25%" }}>
               <FormLabel>Product Type</FormLabel>
               <Select
                 bgColor="white"
@@ -138,17 +149,10 @@ const AddProduct = () => {
           <FormControl>
             {newProduct.type == "LN" ? (
               <>
-                <label className="font-medium">Type/Genre</label>
+                <label className="font-medium">Genre</label>
                 <MultivaluesAutocomplete
                   label="Type/Genre"
-                  options={[
-                    "genre1",
-                    "genre2",
-                    "genre3",
-                    "genre4",
-                    "genre5",
-                    "genre6",
-                  ]}
+                  options={genre}
                   isShowOpt={isShowOpt}
                   onUpdateForm={setNewProduct}
                 />
@@ -165,10 +169,8 @@ const AddProduct = () => {
                     })
                   })
                 }}>
-                  <option value="f1">Figure Type 1</option>
-                  <option value="f2">Figure Type 2</option>
-                  <option value="f3">Figure Type 3</option>
-                  <option value="f4">Figure Type 4</option>
+                  <option value="Nendoroid">Nendoroid</option>
+                  <option value="Figure">Figure</option>
                 </Select>
               </>
             )}

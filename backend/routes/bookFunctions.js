@@ -11,7 +11,7 @@ const getNewID = (lastID) => {
   const nextNumericPart = numericPart + 1;
   return `LN${nextNumericPart.toString().padStart(5, "0")}`;
 };
-router.get("/genre", userVerification, async (req, res) => {
+router.get("/genre", async (req, res) => {
   try {
     const boks = await Book.distinct("genre");
     if (boks) {
