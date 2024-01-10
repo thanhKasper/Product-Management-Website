@@ -95,7 +95,7 @@ const ProductDetail = () => {
         <Button
           className="mt-4"
           colorScheme="yellow"
-          onClick={() => router.push("/products/1/edit")}
+          onClick={() => router.push(`/products/${info.id}/edit`)}
         >
           Edit
         </Button>
