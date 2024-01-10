@@ -5,6 +5,7 @@ import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 
 const MultivaluesAutocomplete = ({ options, isShowOpt, onUpdateForm }) => {
   const [optList, setOptList] = useState([]);
+  const [filterList, setFilterList] = useState(options);
   return (
     <div className="relative mt-2">
       <div className="rounded-md mt-1 p-2 gap-1 flex flex-wrap items-center bg-white max-w-lg has-[:focus]:outline has-[:focus]:outline-blue-600">
@@ -36,6 +37,11 @@ const MultivaluesAutocomplete = ({ options, isShowOpt, onUpdateForm }) => {
           className="flex-grow rounded-sm focus:outline-none"
           placeholder="Search Genre/Type"
           autoComplete="off"
+          onChange={(e) => {
+            const searchWord = e.target.value
+            const filterGenre = options.filter(genre => genre.toLowerCase().indexOf(searchWord.toLowerCase()) !== -1)
+            setFilterList(filterGenre)
+          }}
         />
       </div>
       <ul
@@ -44,15 +50,21 @@ const MultivaluesAutocomplete = ({ options, isShowOpt, onUpdateForm }) => {
           !isShowOpt ? "hidden" : ""
         }`}
       >
-        {options.map((val, idx) => (
+        {filterList.map((val, idx) => (
           <li
             key={idx}
             onClick={() => {
+              const filterInput = document.querySelector('#genre-input')
+              filterInput.value = ""
+              setFilterList(options)
               setOptList(old => {
-                let newOptionList = [...old]
+                let newOptionList = [...old];
                 if (old.indexOf(val) == -1) newOptionList = [...old, val];
-                onUpdateForm(oldForm => ({...oldForm, genre: newOptionList}))
-                return newOptionList
+                onUpdateForm(oldForm => {
+                  delete oldForm.figureType;
+                  return { ...oldForm, genre: newOptionList };
+                });
+                return newOptionList;
               });
             }}
             className="hover:bg-slate-300 px-2 py-1 rounded-md"
