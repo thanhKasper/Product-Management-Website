@@ -33,7 +33,6 @@ const EditProduct = () => {
         },*/
           }
         );
-        setLoading(false);
         setNewProduct(old => {
           return {
             type: response.data.id.indexOf("LN") != -1 ? "LN" : "FG",
@@ -45,6 +44,7 @@ const EditProduct = () => {
             genre: response.data.genre,
           };
         });
+        setLoading(false);
       } else {
         const response = await axios.get(
           `http://localhost:8000/figure/${params.productId}`,
@@ -55,7 +55,18 @@ const EditProduct = () => {
         },*/
           }
         );
-        // setInfo(response.data);
+        setNewProduct(old => {
+          return {
+            type: response.data.id.indexOf("LN") != -1 ? "LN" : "FG",
+            name: response.data.name,
+            size: response.data.size,
+            provider: response.data.provider.name,
+            quantity: response.data.product_count,
+            price: response.data.price,
+            figureType: response.data.type,
+          };
+        });
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
@@ -216,6 +227,7 @@ const EditProduct = () => {
                     mt={2}
                     name="figureType"
                     placeholder="Figure Type"
+                    value={newProduct.figureType}
                     onInput={e => {
                       setNewProduct(old => {
                         delete old.genre;

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 
-const MultivaluesAutocomplete = ({ options, isShowOpt, onUpdateForm, defaultOpt }) => {
+const MultivaluesAutocomplete = ({ options, isShowOpt, onUpdateForm, defaultOpt=[] }) => {
   const [optList, setOptList] = useState(defaultOpt.length == 0 ? [] : defaultOpt);
   const [filterList, setFilterList] = useState(options);
   // console.log(optList)
