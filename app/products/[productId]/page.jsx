@@ -43,6 +43,7 @@ const ProductDetail = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
   const deleteProducts = async () => {
     try {
       if (params.productId.indexOf("LN") != -1) {
@@ -61,6 +62,7 @@ const ProductDetail = () => {
     }
   };
   console.log(info);
+
   const checkGenreorType = (info) => {
     if (info.genre) {
       return info.genre;

@@ -10,10 +10,12 @@ import {
   Select,
   Input,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 
 const AddProduct = () => {
+  const toast = useToast()
   const router = useRouter();
   const [newProduct, setNewProduct] = useState({});
   const [isShowOpt, setShowOpt] = useState(false);
@@ -28,7 +30,8 @@ const AddProduct = () => {
   useEffect(() => {
     getGenre();
   }, []);
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = async e => {
     e.preventDefault();
     try {
       if (newProduct.type === "LN" && newProduct.genre.length === 0) {
@@ -54,7 +57,16 @@ const AddProduct = () => {
           },*/
           }
         );
-        console.log(response);
+        // console.log(response);
+        toast({
+          title: "Product Added",
+          description: "New Product added to the database",
+          status: "success",
+          position: 'bottom-right',
+          duration: 4000,
+          isClosable: true,
+        });
+        router.push('/products')
       } else if (newProduct.type === "FG") {
         const response = axios.post(
           "http://localhost:8000/figure/create",
@@ -73,16 +85,33 @@ const AddProduct = () => {
           },*/
           }
         );
-        console.log(response);
+        // console.log(response);
+        toast({
+          title: "Product Added",
+          description: "New Product added to the database",
+          status: "success",
+          position: "bottom-right",
+          duration: 4000,
+          isClosable: true,
+        });
+        router.push("/products");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      toast({
+        title: "Product Add Fail",
+        description: "Something went wrong, check your action again",
+        status: "error",
+        position: "bottom-right",
+        duration: 4000,
+        isClosable: true,
+      });
     }
   };
   return (
     <section
       className="flex"
-      onClick={(e) => {
+      onClick={e => {
         const eleID = e.target?.attributes[0]?.value;
         if (eleID == "genre-input") {
           setShowOpt(true);
@@ -108,8 +137,8 @@ const AddProduct = () => {
                 placeholder="Choose option"
                 name="type"
                 required
-                onInput={(e) => {
-                  setNewProduct((old) => ({
+                onInput={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -126,8 +155,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="name"
                 required
-                onChange={(e) => {
-                  setNewProduct((old) => ({
+                onChange={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -143,8 +172,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="size"
                 required
-                onChange={(e) => {
-                  setNewProduct((old) => ({
+                onChange={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -158,8 +187,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="provider"
                 required
-                onChange={(e) => {
-                  setNewProduct((old) => ({
+                onChange={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -173,8 +202,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="quantity"
                 required
-                onChange={(e) => {
-                  setNewProduct((old) => ({
+                onChange={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -188,8 +217,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="price"
                 required
-                onChange={(e) => {
-                  setNewProduct((old) => ({
+                onChange={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -219,8 +248,8 @@ const AddProduct = () => {
                   name="figureType"
                   required
                   placeholder="Figure Type"
-                  onInput={(e) => {
-                    setNewProduct((old) => {
+                  onInput={e => {
+                    setNewProduct(old => {
                       delete old.genre;
                       return {
                         ...old,
