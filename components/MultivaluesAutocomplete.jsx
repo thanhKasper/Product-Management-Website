@@ -49,10 +49,13 @@ const MultivaluesAutocomplete = ({ options, isShowOpt, onUpdateForm }) => {
             key={idx}
             onClick={() => {
               setOptList(old => {
-                let newOptionList = [...old]
+                let newOptionList = [...old];
                 if (old.indexOf(val) == -1) newOptionList = [...old, val];
-                onUpdateForm(oldForm => ({...oldForm, genre: newOptionList}))
-                return newOptionList
+                onUpdateForm(oldForm => {
+                  delete oldForm.figureType;
+                  return { ...oldForm, genre: newOptionList };
+                });
+                return newOptionList;
               });
             }}
             className="hover:bg-slate-300 px-2 py-1 rounded-md"

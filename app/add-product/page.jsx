@@ -136,20 +136,42 @@ const AddProduct = () => {
             </FormControl>
           </div>
           <FormControl>
-            <label className="font-medium">Type/Genre</label>
-            <MultivaluesAutocomplete
-              label="Type/Genre"
-              options={[
-                "genre1",
-                "genre2",
-                "genre3",
-                "genre4",
-                "genre5",
-                "genre6",
-              ]}
-              isShowOpt={isShowOpt}
-              onUpdateForm={setNewProduct}
-            />
+            {newProduct.type == "LN" ? (
+              <>
+                <label className="font-medium">Type/Genre</label>
+                <MultivaluesAutocomplete
+                  label="Type/Genre"
+                  options={[
+                    "genre1",
+                    "genre2",
+                    "genre3",
+                    "genre4",
+                    "genre5",
+                    "genre6",
+                  ]}
+                  isShowOpt={isShowOpt}
+                  onUpdateForm={setNewProduct}
+                />
+              </>
+            ) : (
+              <>
+                <label className="font-medium">Type</label>
+                <Select maxWidth='25%' bgColor='white' mt={2} name='figureType' onInput={(e)=>{
+                  setNewProduct(old => {
+                    delete old.genre
+                    return ({
+                      ...old, 
+                      [e.target.name]: e.target.value
+                    })
+                  })
+                }}>
+                  <option value="f1">Figure Type 1</option>
+                  <option value="f2">Figure Type 2</option>
+                  <option value="f3">Figure Type 3</option>
+                  <option value="f4">Figure Type 4</option>
+                </Select>
+              </>
+            )}
           </FormControl>
           <div className="flex justify-end gap-2">
             <Button
