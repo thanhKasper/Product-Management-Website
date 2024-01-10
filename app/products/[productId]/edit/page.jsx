@@ -16,12 +16,10 @@ import axios from "axios";
 const EditProduct = () => {
   const router = useRouter();
   const params = useParams();
-  const [navActive, setnavActive] = useState("Patient");
   const [newProduct, setNewProduct] = useState({});
   const [isShowOpt, setShowOpt] = useState(false);
   const [genre, setGenre] = useState();
-
-  const [info, setInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
   //console.log(newProduct);
   const getInfoProducts = async () => {
     try {
@@ -35,7 +33,18 @@ const EditProduct = () => {
         },*/
           }
         );
-        setInfo(response.data);
+        setLoading(false);
+        setNewProduct(old => {
+          return {
+            type: response.data.id.indexOf("LN") != -1 ? "LN" : "FG",
+            name: response.data.name,
+            size: response.data.size,
+            provider: response.data.provider.name,
+            quantity: response.data.product_count,
+            price: response.data.price,
+            genre: response.data.genre,
+          };
+        });
       } else {
         const response = await axios.get(
           `http://localhost:8000/figure/${params.productId}`,
@@ -46,7 +55,7 @@ const EditProduct = () => {
         },*/
           }
         );
-        setInfo(response.data);
+        // setInfo(response.data);
       }
     } catch (error) {
       console.log(error);
@@ -56,18 +65,17 @@ const EditProduct = () => {
     const getGenre = async () => {
       const res = await axios.get("http://localhost:8000/book/genre");
       const genreList = res.data;
-      console.log(genreList);
       setGenre(genreList);
     };
     getGenre();
     getInfoProducts();
   }, []);
 
-  console.log(info);
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(e);
+    // console.log(e);
   }
+  console.log(newProduct);
   return (
     <section
       className="flex"
@@ -81,157 +89,165 @@ const EditProduct = () => {
       }}
     >
       <Sidebar currentPage={"Product"} />
-      <main className="px-8 py-4 flex-grow bg-secondary-100">
-        <h1 className="font-bold text-5xl text-primary">Edit Product</h1>
-        <form
-          action=""
-          className="mt-10 flex flex-col gap-4 w-10/12 mx-auto"
-          onSubmit={handleSubmit}
-          autoComplete="off"
-        >
-          <div className="flex gap-2">
-            <FormControl sx={{ width: "25%" }}>
-              <FormLabel>Product Type</FormLabel>
-              <Select
-                bgColor="white"
-                placeholder="Choose option"
-                name="type"
-                onInput={e => {
-                  setNewProduct(old => ({
-                    ...old,
-                    [e.target.name]: e.target.value,
-                  }));
-                }}
-              >
-                <option value="LN">Light Novel</option>
-                <option value="FG">Figure</option>
-              </Select>
-            </FormControl>
-            <FormControl>
-              <FormLabel>Product Name</FormLabel>
-              <Input
-                type="text"
-                bgColor="white"
-                name="name"
-                onChange={e => {
-                  setNewProduct(old => ({
-                    ...old,
-                    [e.target.name]: e.target.value,
-                  }));
-                }}
-              />
-            </FormControl>
-          </div>
-          <div className="flex gap-2">
-            <FormControl sx={{ width: "60%" }}>
-              <FormLabel>Size</FormLabel>
-              <Input
-                type="text"
-                bgColor="white"
-                name="size"
-                onChange={e => {
-                  setNewProduct(old => ({
-                    ...old,
-                    [e.target.name]: e.target.value,
-                  }));
-                }}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Provider</FormLabel>
-              <Input
-                type="text"
-                bgColor="white"
-                name="provider"
-                onChange={e => {
-                  setNewProduct(old => ({
-                    ...old,
-                    [e.target.name]: e.target.value,
-                  }));
-                }}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Quantity</FormLabel>
-              <Input
-                type="number"
-                bgColor="white"
-                name="quantity"
-                onChange={e => {
-                  setNewProduct(old => ({
-                    ...old,
-                    [e.target.name]: e.target.value,
-                  }));
-                }}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Price</FormLabel>
-              <Input
-                type="number"
-                bgColor="white"
-                name="price"
-                onChange={e => {
-                  setNewProduct(old => ({
-                    ...old,
-                    [e.target.name]: e.target.value,
-                  }));
-                }}
-              />
-            </FormControl>
-          </div>
-          <FormControl>
-            {newProduct.type !== "" && newProduct.type == "LN" ? (
-              <>
-                <label className="font-medium">Genre</label>
-                <MultivaluesAutocomplete
-                  label="Type/Genre"
-                  options={genre}
-                  isShowOpt={isShowOpt}
-                  prevForm={newProduct}
-                  onUpdateForm={setNewProduct}
-                />
-              </>
-            ) : (
-              <>
-                <label className="font-medium">Type</label>
+      {!loading && (
+        <main className="px-8 py-4 flex-grow bg-secondary-100">
+          <h1 className="font-bold text-5xl text-primary">Edit Product</h1>
+          <form
+            action=""
+            className="mt-10 flex flex-col gap-4 w-10/12 mx-auto"
+            onSubmit={handleSubmit}
+            autoComplete="off"
+          >
+            <div className="flex gap-2">
+              <FormControl sx={{ width: "25%" }}>
+                <FormLabel>Product Type</FormLabel>
                 <Select
-                  maxWidth="25%"
                   bgColor="white"
-                  mt={2}
-                  name="figureType"
-                  placeholder="Figure Type"
+                  placeholder="Choose option"
+                  name="type"
+                  value={newProduct.type}
                   onInput={e => {
-                    setNewProduct(old => {
-                      delete old.genre;
-                      return {
-                        ...old,
-                        [e.target.name]: e.target.value,
-                      };
-                    });
+                    setNewProduct(old => ({
+                      ...old,
+                      [e.target.name]: e.target.value,
+                    }));
                   }}
                 >
-                  <option value="Nendoroid">Nendoroid</option>
-                  <option value="Figure">Figure</option>
+                  <option value="LN">Light Novel</option>
+                  <option value="FG">Figure</option>
                 </Select>
-              </>
-            )}
-          </FormControl>
-          <div className="flex justify-end gap-2">
-            <Button
-              colorScheme="red"
-              onClick={() => {
-                router.push("/products");
-              }}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" colorScheme="green">
-              Submit
-            </Button>
-          </div>
-        </form>
-      </main>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Product Name</FormLabel>
+                <Input
+                  type="text"
+                  bgColor="white"
+                  name="name"
+                  value={newProduct.name}
+                  onChange={e => {
+                    setNewProduct(old => ({
+                      ...old,
+                      [e.target.name]: e.target.value,
+                    }));
+                  }}
+                />
+              </FormControl>
+            </div>
+            <div className="flex gap-2">
+              <FormControl sx={{ width: "60%" }}>
+                <FormLabel>Size</FormLabel>
+                <Input
+                  type="text"
+                  bgColor="white"
+                  name="size"
+                  value={newProduct.size}
+                  onChange={e => {
+                    setNewProduct(old => ({
+                      ...old,
+                      [e.target.name]: e.target.value,
+                    }));
+                  }}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Provider</FormLabel>
+                <Input
+                  type="text"
+                  bgColor="white"
+                  name="provider"
+                  value={newProduct.provider}
+                  onChange={e => {
+                    setNewProduct(old => ({
+                      ...old,
+                      [e.target.name]: e.target.value,
+                    }));
+                  }}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Quantity</FormLabel>
+                <Input
+                  type="number"
+                  bgColor="white"
+                  name="quantity"
+                  value={newProduct.quantity}
+                  onChange={e => {
+                    setNewProduct(old => ({
+                      ...old,
+                      [e.target.name]: e.target.value,
+                    }));
+                  }}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Price</FormLabel>
+                <Input
+                  type="number"
+                  bgColor="white"
+                  name="price"
+                  value={newProduct.price}
+                  onChange={e => {
+                    setNewProduct(old => ({
+                      ...old,
+                      [e.target.name]: e.target.value,
+                    }));
+                  }}
+                />
+              </FormControl>
+            </div>
+            <FormControl>
+              {newProduct.type !== "" && newProduct.type == "LN" ? (
+                <>
+                  <label className="font-medium">Genre</label>
+                  <MultivaluesAutocomplete
+                    options={genre}
+                    isShowOpt={isShowOpt}
+                    prevForm={newProduct}
+                    onUpdateForm={setNewProduct}
+                    defaultOpt={newProduct.genre}
+                  />
+                </>
+              ) : (
+                <>
+                  <label className="font-medium">Type</label>
+                  <Select
+                    maxWidth="25%"
+                    bgColor="white"
+                    mt={2}
+                    name="figureType"
+                    placeholder="Figure Type"
+                    onInput={e => {
+                      setNewProduct(old => {
+                        delete old.genre;
+                        return {
+                          ...old,
+                          [e.target.name]: e.target.value,
+                        };
+                      });
+                    }}
+                  >
+                    <option value="Nendoroid">Nendoroid</option>
+                    <option value="Figure">Figure</option>
+                  </Select>
+                </>
+              )}
+            </FormControl>
+            <div className="flex justify-end gap-2">
+              <Button
+                colorScheme="red"
+                onClick={() => {
+                  router.push("/products");
+                }}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" colorScheme="green">
+                Submit
+              </Button>
+            </div>
+          </form>
+        </main>
+      )}
     </section>
   );
 };

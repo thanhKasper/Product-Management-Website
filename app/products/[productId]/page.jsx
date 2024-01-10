@@ -43,7 +43,7 @@ const ProductDetail = () => {
     fetchData();
   }, []);
 
-  console.log(info);
+  // console.log(info);
   const checkGenreorType = (info) => {
     if (info.genre) {
       return info.genre;
