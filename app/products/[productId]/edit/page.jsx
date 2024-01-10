@@ -2,7 +2,7 @@
 
 import Sidebar from "@/components/sidebar";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import MultivaluesAutocomplete from "@/components/MultivaluesAutocomplete";
 import {
   FormControl,
@@ -15,12 +15,43 @@ import axios from "axios";
 
 const EditProduct = () => {
   const router = useRouter();
+  const params = useParams();
   const [navActive, setnavActive] = useState("Patient");
   const [newProduct, setNewProduct] = useState({});
   const [isShowOpt, setShowOpt] = useState(false);
   const [multVal, setMultVal] = useState([]);
   const [genre, setGenre] = useState();
-  console.log(newProduct);
+  const [info, setInfo] = useState(null);
+  //console.log(newProduct);
+  const getInfoProducts = async () => {
+    try {
+      if (params.productId.indexOf("LN") != -1) {
+        const response = await axios.get(
+          `http://localhost:8000/book/${params.productId}`,
+          {
+            withCredentials: true,
+            /*  headers: {
+          Authorization: `Bearer ${token}`,
+        },*/
+          }
+        );
+        setInfo(response.data);
+      } else {
+        const response = await axios.get(
+          `http://localhost:8000/figure/${params.productId}`,
+          {
+            withCredentials: true,
+            /*  headers: {
+          Authorization: `Bearer ${token}`,
+        },*/
+          }
+        );
+        setInfo(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     const getGenre = async () => {
       const res = await axios.get("http://localhost:8000/book/genre");
@@ -29,7 +60,10 @@ const EditProduct = () => {
       setGenre(genreList);
     };
     getGenre();
+    getInfoProducts();
   }, []);
+
+  console.log(info);
   function handleSubmit(e) {
     e.preventDefault();
     console.log(e);
@@ -37,7 +71,7 @@ const EditProduct = () => {
   return (
     <section
       className="flex"
-      onClick={e => {
+      onClick={(e) => {
         const eleID = e.target?.attributes[0]?.value;
         if (eleID == "genre-input") {
           setShowOpt(true);
@@ -62,8 +96,8 @@ const EditProduct = () => {
                 bgColor="white"
                 placeholder="Choose option"
                 name="type"
-                onInput={e => {
-                  setNewProduct(old => ({
+                onInput={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -79,8 +113,8 @@ const EditProduct = () => {
                 type="text"
                 bgColor="white"
                 name="name"
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -95,8 +129,8 @@ const EditProduct = () => {
                 type="text"
                 bgColor="white"
                 name="size"
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -109,8 +143,8 @@ const EditProduct = () => {
                 type="text"
                 bgColor="white"
                 name="provider"
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -123,8 +157,8 @@ const EditProduct = () => {
                 type="number"
                 bgColor="white"
                 name="quantity"
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -137,8 +171,8 @@ const EditProduct = () => {
                 type="number"
                 bgColor="white"
                 name="price"
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -147,7 +181,7 @@ const EditProduct = () => {
             </FormControl>
           </div>
           <FormControl>
-            {newProduct.type !== '' && newProduct.type == "LN" ? (
+            {newProduct.type !== "" && newProduct.type == "LN" ? (
               <>
                 <label className="font-medium">Genre</label>
                 <MultivaluesAutocomplete
@@ -165,8 +199,8 @@ const EditProduct = () => {
                   bgColor="white"
                   mt={2}
                   name="figureType"
-                  onInput={e => {
-                    setNewProduct(old => {
+                  onInput={(e) => {
+                    setNewProduct((old) => {
                       delete old.genre;
                       return {
                         ...old,
