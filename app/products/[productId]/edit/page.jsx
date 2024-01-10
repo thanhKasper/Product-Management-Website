@@ -1,7 +1,7 @@
 "use client";
 
 import Sidebar from "@/components/sidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import MultivaluesAutocomplete from "@/components/MultivaluesAutocomplete";
 import {
@@ -11,6 +11,7 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
+import axios from "axios";
 
 const EditProduct = () => {
   const router = useRouter();
@@ -18,7 +19,17 @@ const EditProduct = () => {
   const [newProduct, setNewProduct] = useState({});
   const [isShowOpt, setShowOpt] = useState(false);
   const [multVal, setMultVal] = useState([]);
+  const [genre, setGenre] = useState();
   console.log(newProduct);
+  useEffect(() => {
+    const getGenre = async () => {
+      const res = await axios.get("http://localhost:8000/book/genre");
+      const genreList = res.data;
+      console.log(genreList);
+      setGenre(genreList);
+    };
+    getGenre();
+  }, []);
   function handleSubmit(e) {
     e.preventDefault();
     console.log(e);
@@ -45,7 +56,7 @@ const EditProduct = () => {
           autoComplete="off"
         >
           <div className="flex gap-2">
-            <FormControl sx={{ width: "20%" }}>
+            <FormControl sx={{ width: "25%" }}>
               <FormLabel>Product Type</FormLabel>
               <Select
                 bgColor="white"
@@ -136,20 +147,39 @@ const EditProduct = () => {
             </FormControl>
           </div>
           <FormControl>
-            <label className="font-medium">Type/Genre</label>
-            <MultivaluesAutocomplete
-              label="Type/Genre"
-              options={[
-                "genre1",
-                "genre2",
-                "genre3",
-                "genre4",
-                "genre5",
-                "genre6",
-              ]}
-              isShowOpt={isShowOpt}
-              onUpdateForm={setNewProduct}
-            />
+            {newProduct.type !== '' && newProduct.type == "LN" ? (
+              <>
+                <label className="font-medium">Genre</label>
+                <MultivaluesAutocomplete
+                  label="Type/Genre"
+                  options={genre}
+                  isShowOpt={isShowOpt}
+                  onUpdateForm={setNewProduct}
+                />
+              </>
+            ) : (
+              <>
+                <label className="font-medium">Type</label>
+                <Select
+                  maxWidth="25%"
+                  bgColor="white"
+                  mt={2}
+                  name="figureType"
+                  onInput={e => {
+                    setNewProduct(old => {
+                      delete old.genre;
+                      return {
+                        ...old,
+                        [e.target.name]: e.target.value,
+                      };
+                    });
+                  }}
+                >
+                  <option value="Nendoroid">Nendoroid</option>
+                  <option value="Figure">Figure</option>
+                </Select>
+              </>
+            )}
           </FormControl>
           <div className="flex justify-end gap-2">
             <Button
