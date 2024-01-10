@@ -1,8 +1,8 @@
-'use client'
-
-import React, { useState } from 'react'
-import Sidebar from '../../components/sidebar';
-import OrderSearchBar from '../../components/OrderSearchBar';
+"use client";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import Sidebar from "../../components/sidebar";
+import OrderSearchBar from "../../components/OrderSearchBar";
 import {
   Table,
   Thead,
@@ -13,8 +13,41 @@ import {
   TableContainer,
   Button,
 } from "@chakra-ui/react";
-
+const getTotalprice = (products, figures) => {
+  let total = 0;
+  for (const product of products) {
+    total = total + product.count * product.product_id.price;
+  }
+  for (const figure of figures) {
+    total = total + figure.count * figure.product_id.price;
+  }
+  return total;
+};
+const dateOption = {
+  day: "numeric",
+  month: "numeric",
+  year: "numeric",
+};
 const OrderPage = () => {
+  const [info, setInfo] = useState(null);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/other/orders`, {
+        withCredentials: true,
+        /*  headers: {
+          Authorization: `Bearer ${token}`,
+        },*/
+      });
+
+      setInfo(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  console.log(info);
   return (
     <section className="flex bg-secondary-100">
       <Sidebar currentPage="Order" />
@@ -33,157 +66,47 @@ const OrderPage = () => {
           </Button>
         </div>
         <OrderSearchBar />
-        <TableContainer marginTop={6} overflowY="scroll" maxWidth="100%">
-          <Table variant="simple" bgColor={"white"} overflowY={"scroll"}>
-            <Thead position="sticky" top={0} bgColor="white">
-              <Tr>
-                <Th>RECEIVER</Th>
-                <Th>ORDER DATE</Th>
-                <Th>DELIVERY PRICE</Th>
-                <Th>TOTAL PRICE</Th>
-                <Th>PRODUCT ORDER QUANTITY</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">Kieu Tien Thanh</Td>
-                <Td className="cursor-pointer">1/3/2024</Td>
-                <Td className="cursor-pointer">15000</Td>
-                <Td className="cursor-pointer">245000</Td>
-                <Td className="cursor-pointer">4</Td>
-              </Tr>
-            </Tbody>
-          </Table>
-        </TableContainer>
+        {info && (
+          <TableContainer marginTop={6} overflowY="scroll" maxWidth="100%">
+            <Table variant="simple" bgColor={"white"} overflowY={"scroll"}>
+              <Thead position="sticky" top={0} bgColor="white">
+                <Tr>
+                  <Th>RECEIVER</Th>
+                  <Th>ORDER DATE</Th>
+                  <Th>DELIVERY PRICE</Th>
+                  <Th>TOTAL PRICE</Th>
+                  <Th>PRODUCT ORDER QUANTITY</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {info.map((val, key) => (
+                  <Tr className="hover:bg-slate-300 cursor-pointer" key={key}>
+                    <Td className="cursor-pointer">{val.customer.Cname}</Td>
+                    <Td className="cursor-pointer">
+                      {new Date(val.order_date).toLocaleDateString(
+                        "en-GB",
+                        dateOption
+                      )}
+                    </Td>
+                    <Td className="cursor-pointer">
+                      {val.delivery_price.toLocaleString()}
+                    </Td>
+                    <Td className="cursor-pointer">
+                      {(
+                        val.delivery_price +
+                        getTotalprice(val.products_book, val.products_figure)
+                      ).toLocaleString()}
+                    </Td>
+                    <Td className="cursor-pointer">{val.quantity}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        )}
       </main>
     </section>
   );
-}
+};
 
-export default OrderPage
+export default OrderPage;

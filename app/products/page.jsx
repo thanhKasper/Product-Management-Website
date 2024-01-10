@@ -10,18 +10,41 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
-import Sidebar from '../../components/sidebar'
-import ProductSearchBar from '../../components/ProductSearchBar'
+import Sidebar from "../../components/sidebar";
+import ProductSearchBar from "../../components/ProductSearchBar";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const ProductPage = () => {
   const router = useRouter();
   const [isShowOpt, setIsShowOpt] = useState(false);
+  const [info, setInfo] = useState(null);
+
+  const [error, setError] = useState(null);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/book/`, {
+        withCredentials: true,
+        /*  headers: {
+          Authorization: `Bearer ${token}`,
+        },*/
+      });
+
+      setInfo(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  console.log(info);
   return (
     <section
       className="flex bg-secondary-100"
-      onClick={e => {
+      onClick={(e) => {
         const eleID = e.target?.attributes[0]?.value;
         if (eleID == "genre-input") {
           setIsShowOpt(true);
@@ -45,167 +68,46 @@ const ProductPage = () => {
             Add Product
           </Button>
         </div>
-        
+
         <ProductSearchBar isShowOpt={isShowOpt} />
 
         {/* Table will need an array of objects fetched from api */}
-        <TableContainer marginTop={6} overflowY="scroll" maxWidth="100%">
-          <Table variant="simple" bgColor={"white"} overflowY={"scroll"}>
-            <Thead position="sticky" top={0} bgColor="white">
-              <Tr>
-                <Th>ID</Th>
-                <Th>PRODUCT NAME</Th>
-                <Th>PRICE</Th>
-                <Th>QUANTITY</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">SN0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Otonari no Tenshi-sama ni Itsu no Ma ni ka Dame Ningen ni
-                  Sareteita Ken
-                </Td>
-                <Td className="cursor-pointer">97000</Td>
-                <Td className="cursor-pointer">200</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">SN0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Otonari no Tenshi-sama ni Itsu no Ma ni ka Dame Ningen ni
-                  Sareteita Ken
-                </Td>
-                <Td className="cursor-pointer">97000</Td>
-                <Td className="cursor-pointer">200</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">SN0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Otonari no Tenshi-sama ni Itsu no Ma ni ka Dame Ningen ni
-                  Sareteita Ken
-                </Td>
-                <Td className="cursor-pointer">97000</Td>
-                <Td className="cursor-pointer">200</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">SN0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Otonari no Tenshi-sama ni Itsu no Ma ni ka Dame Ningen ni
-                  Sareteita Ken
-                </Td>
-                <Td className="cursor-pointer">97000</Td>
-                <Td className="cursor-pointer">200</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">SN0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Otonari no Tenshi-sama ni Itsu no Ma ni ka Dame Ningen ni
-                  Sareteita Ken
-                </Td>
-                <Td className="cursor-pointer">97000</Td>
-                <Td className="cursor-pointer">200</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">SN0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Otonari no Tenshi-sama ni Itsu no Ma ni ka Dame Ningen ni
-                  Sareteita Ken
-                </Td>
-                <Td className="cursor-pointer">97000</Td>
-                <Td className="cursor-pointer">200</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">SN0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Otonari no Tenshi-sama ni Itsu no Ma ni ka Dame Ningen ni
-                  Sareteita Ken
-                </Td>
-                <Td className="cursor-pointer">97000</Td>
-                <Td className="cursor-pointer">200</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">SN0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Otonari no Tenshi-sama ni Itsu no Ma ni ka Dame Ningen ni
-                  Sareteita Ken
-                </Td>
-                <Td className="cursor-pointer">97000</Td>
-                <Td className="cursor-pointer">200</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">SN0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Otonari no Tenshi-sama ni Itsu no Ma ni ka Dame Ningen ni
-                  Sareteita Ken
-                </Td>
-                <Td className="cursor-pointer">97000</Td>
-                <Td className="cursor-pointer">200</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">SN0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Otonari no Tenshi-sama ni Itsu no Ma ni ka Dame Ningen ni
-                  Sareteita Ken
-                </Td>
-                <Td className="cursor-pointer">97000</Td>
-                <Td className="cursor-pointer">200</Td>
-              </Tr>
-              <Tr className="hover:bg-slate-300 cursor-pointer">
-                <Td className="cursor-pointer">SN0001</Td>
-                <Td
-                  className="cursor-pointer"
-                  maxWidth="500px"
-                  sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                >
-                  Otonari no Tenshi-sama ni Itsu no Ma ni ka Dame Ningen ni
-                  Sareteita Ken
-                </Td>
-                <Td className="cursor-pointer">97000</Td>
-                <Td className="cursor-pointer">200</Td>
-              </Tr>
-            </Tbody>
-          </Table>
-        </TableContainer>
+        {info && (
+          <TableContainer marginTop={6} overflowY="scroll" maxWidth="100%">
+            <Table variant="simple" bgColor={"white"} overflowY={"scroll"}>
+              <Thead position="sticky" top={0} bgColor="white">
+                <Tr>
+                  <Th>ID</Th>
+                  <Th>PRODUCT NAME</Th>
+                  <Th>PRICE</Th>
+                  <Th>QUANTITY</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {info.map((val, key) => {
+                  return (
+                    <Tr className="hover:bg-slate-300 cursor-pointer" key={key}>
+                      <Td className="cursor-pointer text-black">{val.id}</Td>
+                      <Td
+                        className="cursor-pointer"
+                        maxWidth="500px"
+                        sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
+                      >
+                        {val.name}
+                      </Td>
+                      <Td className="cursor-pointer">
+                        {val.price.toLocaleString()}
+                      </Td>
+                      <Td className="cursor-pointer">
+                        {val.product_count.toLocaleString()}
+                      </Td>
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        )}
       </main>
     </section>
   );
