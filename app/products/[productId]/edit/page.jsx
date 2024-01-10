@@ -15,12 +15,11 @@ import axios from "axios";
 
 const EditProduct = () => {
   const router = useRouter();
-  const [navActive, setnavActive] = useState("Patient");
   const [newProduct, setNewProduct] = useState({});
   const [isShowOpt, setShowOpt] = useState(false);
-  const [multVal, setMultVal] = useState([]);
   const [genre, setGenre] = useState();
   console.log(newProduct);
+
   useEffect(() => {
     const getGenre = async () => {
       const res = await axios.get("http://localhost:8000/book/genre");
@@ -147,13 +146,14 @@ const EditProduct = () => {
             </FormControl>
           </div>
           <FormControl>
-            {newProduct.type !== '' && newProduct.type == "LN" ? (
+            {newProduct.type == "LN" ? (
               <>
                 <label className="font-medium">Genre</label>
                 <MultivaluesAutocomplete
                   label="Type/Genre"
                   options={genre}
                   isShowOpt={isShowOpt}
+                  prevForm={newProduct}
                   onUpdateForm={setNewProduct}
                 />
               </>
@@ -165,6 +165,7 @@ const EditProduct = () => {
                   bgColor="white"
                   mt={2}
                   name="figureType"
+                  placeholder="Figure Type"
                   onInput={e => {
                     setNewProduct(old => {
                       delete old.genre;
