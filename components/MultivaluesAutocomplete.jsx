@@ -1,11 +1,19 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 
 const MultivaluesAutocomplete = ({ options, isShowOpt, onUpdateForm }) => {
   const [optList, setOptList] = useState([]);
   const [filterList, setFilterList] = useState(options);
+  // console.log(optList)
+  useEffect(() => {
+    onUpdateForm(form => {
+      delete form.figureType;
+      return { ...form, genre: optList };
+    });
+  }, [optList])
+  
   return (
     <div className="relative mt-2">
       <div className="rounded-md mt-1 p-2 gap-1 flex flex-wrap items-center bg-white max-w-lg has-[:focus]:outline has-[:focus]:outline-blue-600">
@@ -23,9 +31,10 @@ const MultivaluesAutocomplete = ({ options, isShowOpt, onUpdateForm }) => {
             <TagCloseButton
               onClick={() => {
                 const newArr = optList.filter(genre => {
-                  return genre !== optList[idx];
+                  return genre !== val;
                 });
                 setOptList(newArr);
+                // onUpdateForm({...prevForm, genre: })
               }}
             />
           </Tag>
@@ -60,10 +69,10 @@ const MultivaluesAutocomplete = ({ options, isShowOpt, onUpdateForm }) => {
               setOptList(old => {
                 let newOptionList = [...old];
                 if (old.indexOf(val) == -1) newOptionList = [...old, val];
-                onUpdateForm(oldForm => {
-                  delete oldForm.figureType;
-                  return { ...oldForm, genre: newOptionList };
-                });
+                // onUpdateForm(oldForm => {
+                //   delete oldForm.figureType;
+                //   return { ...oldForm, genre: newOptionList };
+                // });
                 return newOptionList;
               });
             }}

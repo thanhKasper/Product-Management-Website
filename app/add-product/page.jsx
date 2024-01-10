@@ -15,10 +15,8 @@ import axios from "axios";
 
 const AddProduct = () => {
   const router = useRouter();
-  const [navActive, setnavActive] = useState("Patient");
   const [newProduct, setNewProduct] = useState({});
   const [isShowOpt, setShowOpt] = useState(false);
-  const [multVal, setMultVal] = useState([]);
   const [genre, setGenre] = useState();
   console.log(newProduct);
 
@@ -155,6 +153,7 @@ const AddProduct = () => {
                   label="Type/Genre"
                   options={genre}
                   isShowOpt={isShowOpt}
+                  prevForm={newProduct}
                   onUpdateForm={setNewProduct}
                 />
               </>
@@ -166,6 +165,7 @@ const AddProduct = () => {
                   bgColor="white"
                   mt={2}
                   name="figureType"
+                  placeholder="Figure Type"
                   onInput={(e) => {
                     setNewProduct((old) => {
                       delete old.genre;
