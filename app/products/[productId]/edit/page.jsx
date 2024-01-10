@@ -2,7 +2,7 @@
 
 import Sidebar from "@/components/sidebar";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import MultivaluesAutocomplete from "@/components/MultivaluesAutocomplete";
 import {
   FormControl,
@@ -15,11 +15,43 @@ import axios from "axios";
 
 const EditProduct = () => {
   const router = useRouter();
+  const params = useParams();
+  const [navActive, setnavActive] = useState("Patient");
   const [newProduct, setNewProduct] = useState({});
   const [isShowOpt, setShowOpt] = useState(false);
   const [genre, setGenre] = useState();
-  console.log(newProduct);
 
+  const [info, setInfo] = useState(null);
+  //console.log(newProduct);
+  const getInfoProducts = async () => {
+    try {
+      if (params.productId.indexOf("LN") != -1) {
+        const response = await axios.get(
+          `http://localhost:8000/book/${params.productId}`,
+          {
+            withCredentials: true,
+            /*  headers: {
+          Authorization: `Bearer ${token}`,
+        },*/
+          }
+        );
+        setInfo(response.data);
+      } else {
+        const response = await axios.get(
+          `http://localhost:8000/figure/${params.productId}`,
+          {
+            withCredentials: true,
+            /*  headers: {
+          Authorization: `Bearer ${token}`,
+        },*/
+          }
+        );
+        setInfo(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     const getGenre = async () => {
       const res = await axios.get("http://localhost:8000/book/genre");
@@ -28,7 +60,10 @@ const EditProduct = () => {
       setGenre(genreList);
     };
     getGenre();
+    getInfoProducts();
   }, []);
+
+  console.log(info);
   function handleSubmit(e) {
     e.preventDefault();
     console.log(e);
@@ -146,7 +181,7 @@ const EditProduct = () => {
             </FormControl>
           </div>
           <FormControl>
-            {newProduct.type == "LN" ? (
+            {newProduct.type !== "" && newProduct.type == "LN" ? (
               <>
                 <label className="font-medium">Genre</label>
                 <MultivaluesAutocomplete
