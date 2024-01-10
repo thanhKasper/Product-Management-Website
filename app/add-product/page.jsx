@@ -21,14 +21,13 @@ const AddProduct = () => {
   const [multVal, setMultVal] = useState([]);
   const [genre, setGenre] = useState();
   console.log(newProduct);
-
+  const getGenre = async () => {
+    const res = await axios.get("http://localhost:8000/book/genre");
+    const genreList = res.data;
+    console.log(genreList);
+    setGenre(genreList);
+  };
   useEffect(() => {
-    const getGenre = async () => {
-      const res = await axios.get("http://localhost:8000/book/genre");
-      const genreList = res.data;
-      console.log(genreList);
-      setGenre(genreList);
-    };
     getGenre();
   }, []);
   function handleSubmit(e) {
