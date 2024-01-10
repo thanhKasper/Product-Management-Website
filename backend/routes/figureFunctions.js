@@ -2,10 +2,12 @@ const router = require("express").Router();
 
 const Figure = require("../models/figure.js");
 const Provider = require("../models/provider.js");
+const Order = require("../models/order.js");
 const {
   userVerification,
   userAuthorization,
 } = require("../middlewares/AuthMiddleware.js");
+const order = require("../models/order.js");
 const getNewID = (lastID) => {
   const numericPart = parseInt(lastID.slice(2), 10);
   const nextNumericPart = numericPart + 1;
@@ -100,4 +102,5 @@ router.delete("/:id", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
 module.exports = router;
