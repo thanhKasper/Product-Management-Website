@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Sidebar from "../../components/sidebar";
 import OrderSearchBar from "../../components/OrderSearchBar";
 import {
@@ -13,6 +14,7 @@ import {
   TableContainer,
   Button,
 } from "@chakra-ui/react";
+
 const getTotalprice = (products, figures) => {
   let total = 0;
   for (const product of products) {
@@ -30,6 +32,7 @@ const dateOption = {
 };
 const OrderPage = () => {
   const [info, setInfo] = useState(null);
+  const router = useRouter();
   const fetchData = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/other/orders`, {
@@ -80,7 +83,13 @@ const OrderPage = () => {
               </Thead>
               <Tbody>
                 {info.map((val, key) => (
-                  <Tr className="hover:bg-slate-300 cursor-pointer" key={key}>
+                  <Tr
+                    className="hover:bg-slate-300 cursor-pointer"
+                    key={key}
+                    onClick={() => {
+                      router.push(`/orders/${val._id}`);
+                    }}
+                  >
                     <Td className="cursor-pointer">{val.customer.Cname}</Td>
                     <Td className="cursor-pointer">
                       {new Date(val.order_date).toLocaleDateString(

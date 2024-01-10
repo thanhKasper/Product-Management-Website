@@ -11,7 +11,7 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-
+import axios from "axios";
 const AddProduct = () => {
   const router = useRouter();
   const [navActive, setnavActive] = useState("Patient");
@@ -19,14 +19,14 @@ const AddProduct = () => {
   const [isShowOpt, setShowOpt] = useState(false);
   const [multVal, setMultVal] = useState([]);
   console.log(newProduct);
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(e);
-  }
+  };
   return (
     <section
       className="flex"
-      onClick={e => {
+      onClick={(e) => {
         const eleID = e.target?.attributes[0]?.value;
         if (eleID == "genre-input") {
           setShowOpt(true);
@@ -51,8 +51,8 @@ const AddProduct = () => {
                 bgColor="white"
                 placeholder="Choose option"
                 name="type"
-                onInput={e => {
-                  setNewProduct(old => ({
+                onInput={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -68,8 +68,8 @@ const AddProduct = () => {
                 type="text"
                 bgColor="white"
                 name="name"
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -84,8 +84,8 @@ const AddProduct = () => {
                 type="text"
                 bgColor="white"
                 name="size"
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -98,8 +98,8 @@ const AddProduct = () => {
                 type="text"
                 bgColor="white"
                 name="provider"
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -112,8 +112,8 @@ const AddProduct = () => {
                 type="number"
                 bgColor="white"
                 name="quantity"
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -126,8 +126,8 @@ const AddProduct = () => {
                 type="number"
                 bgColor="white"
                 name="price"
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));

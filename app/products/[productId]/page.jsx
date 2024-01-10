@@ -90,7 +90,7 @@ const ProductDetail = () => {
             )}
           </div>
           <p className="font-semibold">Quantity:</p>
-          <p className="col-span-11">A number will appear</p>
+          <p className="col-span-11">{info && info.product_count}</p>
         </div>
         <Button
           className="mt-4"
