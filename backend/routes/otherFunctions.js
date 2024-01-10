@@ -16,6 +16,20 @@ router.get("/customers", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+router.get("/customers/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await Customer.findOne({ id });
+
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.json({ message: "There is no such customer exist" });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
 router.get("/orders", async (req, res) => {
   try {
     const result = await Order.find({})
