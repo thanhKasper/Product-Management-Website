@@ -14,8 +14,11 @@ import {
   Button,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 const CustomerPage = () => {
   const [info, setInfo] = useState(null);
+  const router = useRouter();
+
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -57,7 +60,13 @@ const CustomerPage = () => {
               </Thead>
               <Tbody>
                 {info.map((val, key) => (
-                  <Tr className="hover:bg-slate-300 cursor-pointer" key={key}>
+                  <Tr
+                    className="hover:bg-slate-300 cursor-pointer"
+                    key={key}
+                    onClick={() => {
+                      router.push(`/customers/${val.id}`);
+                    }}
+                  >
                     <Td className="cursor-pointer">{val.id}</Td>
                     <Td>{val.Cname}</Td>
                     <Td>{val.Email}</Td>
