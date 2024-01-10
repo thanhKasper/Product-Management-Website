@@ -2,6 +2,7 @@ const router = require("express").Router();
 
 const Book = require("../models/book.js");
 const Figure = require("../models/figure.js");
+const Provider = require("../models/provider.js");
 const {
   userVerification,
   userAuthorization,
@@ -52,26 +53,45 @@ router.get("/:id", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.post("/create", userAuthorization, async (req, res) => {
-  const { size, genre, price, name, product_count } = req.body;
+router.post("/create", async (req, res) => {
+  const { size, genre, price, name, product_count, provider } = req.body;
 
   try {
+    const prod = await Provider.findOne({ name: provider });
     const lastBok = await Book.findOne({}).sort({ id: -1 });
     const newID = lastBok ? getNewID(lastBok.id) : "LN00001";
-    const bok = await Book.create({
-      id: newID,
-      size,
-      genre,
-      price,
-      name,
-      product_count,
-    });
-    res.status(200).json(bok);
+    if (prod) {
+      const bok = await Book.create({
+        id: newID,
+        size,
+        genre,
+        price,
+        name,
+        product_count,
+        provider: prod._id,
+      });
+      res.status(200).json(bok);
+    } else {
+      const newProd = await Provider.create({
+        name: provider,
+        email: "Not Given",
+      });
+      const bok = await Book.create({
+        id: newID,
+        size,
+        genre,
+        price,
+        name,
+        product_count,
+        provider: newProd._id,
+      });
+      res.status(200).json(bok);
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });
-router.patch("/:id", userAuthorization, async (req, res) => {
+router.patch("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const bok = await Book.findOneAndUpdate({ id }, { ...req.body });
@@ -82,7 +102,7 @@ router.patch("/:id", userAuthorization, async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.delete("/:id", userAuthorization, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const bok = await Book.findOneAndDelete({ id });

@@ -15,7 +15,7 @@ const figureSchema = new Schema(
       type: String,
       require: true,
     },
-    type: { type: String, enum: ["figure", "nendoroid"], require: true },
+    type: { type: String, enum: ["Figure", "Nendoroid"], require: true },
     size: {
       type: String,
       require: true,

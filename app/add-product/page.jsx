@@ -28,10 +28,57 @@ const AddProduct = () => {
   useEffect(() => {
     getGenre();
   }, []);
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e);
-  }
+    try {
+      if (newProduct.type === "LN" && newProduct.genre.length === 0) {
+        console.log("The genre must have value");
+        return;
+      }
+
+      if (newProduct.type === "LN") {
+        const response = axios.post(
+          "http://localhost:8000/book/create",
+          {
+            name: newProduct.name,
+            genre: newProduct.genre,
+            size: newProduct.size,
+            price: newProduct.price,
+            product_count: newProduct.quantity,
+            provider: newProduct.provider,
+          },
+          {
+            withCredentials: true,
+            /* headers: {
+            Authorization: `Bearer ${token}`,
+          },*/
+          }
+        );
+        console.log(response);
+      } else if (newProduct.type === "FG") {
+        const response = axios.post(
+          "http://localhost:8000/figure/create",
+          {
+            name: newProduct.name,
+            type: newProduct.figureType,
+            size: newProduct.size,
+            price: newProduct.price,
+            product_count: newProduct.quantity,
+            provider: newProduct.provider,
+          },
+          {
+            withCredentials: true,
+            /* headers: {
+            Authorization: `Bearer ${token}`,
+          },*/
+          }
+        );
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <section
       className="flex"
@@ -60,6 +107,7 @@ const AddProduct = () => {
                 bgColor="white"
                 placeholder="Choose option"
                 name="type"
+                required
                 onInput={(e) => {
                   setNewProduct((old) => ({
                     ...old,
@@ -77,6 +125,7 @@ const AddProduct = () => {
                 type="text"
                 bgColor="white"
                 name="name"
+                required
                 onChange={(e) => {
                   setNewProduct((old) => ({
                     ...old,
@@ -93,6 +142,7 @@ const AddProduct = () => {
                 type="text"
                 bgColor="white"
                 name="size"
+                required
                 onChange={(e) => {
                   setNewProduct((old) => ({
                     ...old,
@@ -107,6 +157,7 @@ const AddProduct = () => {
                 type="text"
                 bgColor="white"
                 name="provider"
+                required
                 onChange={(e) => {
                   setNewProduct((old) => ({
                     ...old,
@@ -121,6 +172,7 @@ const AddProduct = () => {
                 type="number"
                 bgColor="white"
                 name="quantity"
+                required
                 onChange={(e) => {
                   setNewProduct((old) => ({
                     ...old,
@@ -135,6 +187,7 @@ const AddProduct = () => {
                 type="number"
                 bgColor="white"
                 name="price"
+                required
                 onChange={(e) => {
                   setNewProduct((old) => ({
                     ...old,
@@ -164,6 +217,7 @@ const AddProduct = () => {
                   bgColor="white"
                   mt={2}
                   name="figureType"
+                  required
                   placeholder="Figure Type"
                   onInput={(e) => {
                     setNewProduct((old) => {
