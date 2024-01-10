@@ -86,7 +86,13 @@ const ProductPage = () => {
               <Tbody>
                 {info.map((val, key) => {
                   return (
-                    <Tr className="hover:bg-slate-300 cursor-pointer" key={key}>
+                    <Tr
+                      className="hover:bg-slate-300 cursor-pointer"
+                      key={key}
+                      onClick={() => {
+                        router.push(`/products/${val.id}`);
+                      }}
+                    >
                       <Td className="cursor-pointer text-black">{val.id}</Td>
                       <Td
                         className="cursor-pointer"

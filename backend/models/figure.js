@@ -25,6 +25,11 @@ const figureSchema = new Schema(
       type: Number,
       require: true,
     },
+    provider: {
+      type: Schema.Types.ObjectId,
+      ref: "Provider",
+      require: true,
+    },
   },
   { collection: "Figures", versionKey: false }
 );
