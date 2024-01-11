@@ -3,8 +3,9 @@ import { Select } from "@chakra-ui/react";
 
 import React, { useState } from "react";
 
-const RangeWithOpt = ({onUpdateForm, inputName}) => {
-  const [filterOpt, setFilterOpt] = useState('from');
+const RangeWithOpt = ({ onUpdateForm, curForm, inputName }) => {
+  const [filterOpt, setFilterOpt] = useState("from");
+  const [betweenChoice, setBetweenChoice] = useState([false, false]);
   let inputOpt;
   if (filterOpt == "from") {
     inputOpt = (
@@ -18,7 +19,12 @@ const RangeWithOpt = ({onUpdateForm, inputName}) => {
         placeholder="from"
         name={`${inputName}-start`}
         onChange={e => {
-          onUpdateForm(old => ({ ...old, [e.target.name]: e.target.value, [`${inputName}-end`]: null }));
+          setBetweenChoice([false, false]);
+          onUpdateForm(old => {
+            delete old[`${inputName}-start`];
+            delete old[`${inputName}-end`];
+            return { ...old, [e.target.name]: e.target.value };
+          });
         }}
       />
     );
@@ -34,11 +40,18 @@ const RangeWithOpt = ({onUpdateForm, inputName}) => {
         placeholder="to"
         name={`${inputName}-end`}
         onChange={e => {
-          onUpdateForm(old => ({ ...old, [e.target.name]: e.target.value, [`${inputName}-start`]: null }));
+          setBetweenChoice([false, false]);
+          onUpdateForm(old => {
+            delete old[`${inputName}-start`];
+            delete old[`${inputName}-end`];
+            return { ...old, [e.target.name]: e.target.value };
+          });
         }}
       />
     );
-  else
+  else {
+    if (!betweenChoice[0]) delete curForm[`${inputName}-start`];
+    if (!betweenChoice[1]) delete curForm[`${inputName}-end`];
     inputOpt = (
       <>
         <Input
@@ -51,7 +64,10 @@ const RangeWithOpt = ({onUpdateForm, inputName}) => {
           placeholder="from"
           name={`${inputName}-start`}
           onChange={e => {
-            onUpdateForm(old => ({ ...old, [e.target.name]: e.target.value }));
+            setBetweenChoice(old => [true, old[1]]);
+            onUpdateForm(old => {
+              return { ...old, [e.target.name]: e.target.value };
+            });
           }}
         />
         <p className="text-secondary-100">-</p>
@@ -65,11 +81,15 @@ const RangeWithOpt = ({onUpdateForm, inputName}) => {
           placeholder="to"
           name={`${inputName}-end`}
           onChange={e => {
-            onUpdateForm(old => ({ ...old, [e.target.name]: e.target.value }));
+            setBetweenChoice(old => [old[0], true]);
+            onUpdateForm(old => {
+              return { ...old, [e.target.name]: e.target.value };
+            });
           }}
         />
       </>
     );
+  }
   return (
     <div className="flex items-center gap-2 mt-1">
       <Select

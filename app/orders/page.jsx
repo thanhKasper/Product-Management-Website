@@ -50,23 +50,13 @@ const OrderPage = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(info);
+  // console.log(info);
   return (
     <section className="flex bg-secondary-100">
       <Sidebar currentPage="Order" />
       <main className="px-8 py-4 grow flex flex-col h-screen">
         <div className="flex justify-between items-center">
           <h1 className="font-bold text-primary text-5xl">Orders</h1>
-          <Button
-            bgColor={"#FFD993"}
-            _hover={{ bgColor: "#FFA67C" }}
-            fontWeight={600}
-            onClick={() => {
-              router.push("/add-product");
-            }}
-          >
-            Add Product
-          </Button>
         </div>
         <OrderSearchBar />
         {info && (

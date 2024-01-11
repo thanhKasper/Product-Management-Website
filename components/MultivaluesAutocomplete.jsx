@@ -20,16 +20,18 @@ const MultivaluesAutocomplete = ({
       delete form.figureType;
       return { ...form, genre: optList };
     });
-    setGenreKeyWord('')
+    setGenreKeyWord("");
   }, [optList]);
 
   useEffect(() => {
-    const filterGenre = options.filter(genre => {
-      return genre.toLowerCase().indexOf(genreKeyWord.toLowerCase()) !== -1;
-    });
-    setFilterList(filterGenre);
+    if (genreKeyWord === "") setFilterList(options);
+    else {
+      const filterGenre = options.filter(genre => {
+        return genre.toLowerCase().indexOf(genreKeyWord.toLowerCase()) !== -1;
+      });
+      setFilterList(filterGenre);
+    }
   }, [genreKeyWord]);
-
   return (
     <div className="relative mt-2">
       <div className="rounded-md mt-1 p-2 gap-1 flex flex-wrap items-center bg-white max-w-lg has-[:focus]:outline has-[:focus]:outline-blue-600">
@@ -50,7 +52,6 @@ const MultivaluesAutocomplete = ({
                   return genre !== val;
                 });
                 setOptList(newArr);
-                // onUpdateForm({...prevForm, genre: })
               }}
             />
           </Tag>
@@ -80,7 +81,8 @@ const MultivaluesAutocomplete = ({
               onClick={() => {
                 setOptList(old => {
                   let newOptionList = [...old];
-                  if (old.indexOf(genreKeyWord) == -1) newOptionList = [...old, genreKeyWord];
+                  if (old.indexOf(genreKeyWord) == -1)
+                    newOptionList = [...old, genreKeyWord];
                   return newOptionList;
                 });
               }}

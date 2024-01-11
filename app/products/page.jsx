@@ -77,7 +77,7 @@ const ProductPage = () => {
     fetchDataAndCheckAuth();
   }, []);
 
-  console.log(info);
+  // console.log(info);
   return (
     <section
       className="flex bg-secondary-100"
