@@ -28,7 +28,7 @@ router.post("/login", async (req, res, next) => {
       auth = true;
     }
     if (!auth) {
-      return res.json({ message: "Incorrect password " });
+      return res.json({ message: "Incorrect password ", success: false });
     }
 
     const token = createSecretToken(user._id);
@@ -38,7 +38,7 @@ router.post("/login", async (req, res, next) => {
     });
     res
       .status(201)
-      .json({ message: "User logged in successfully", success: true });
+      .json({ message: "User logged in successfully", success: true, token });
     next();
   } catch (error) {
     console.error(error);
