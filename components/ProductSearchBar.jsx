@@ -17,7 +17,7 @@ const ProductSearchBar = ({ isShowOpt }) => {
   useEffect(() => {
     getGenre();
   }, []);
-  // console.log(genre);
+  console.log(form)
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
@@ -70,14 +70,22 @@ const ProductSearchBar = ({ isShowOpt }) => {
                 <label htmlFor="" className="font-medium text-secondary-100">
                   Price
                 </label>
-                <RangeWithOpt onUpdateForm={setForm} inputName="price" />
+                <RangeWithOpt
+                  onUpdateForm={setForm}
+                  curForm={form}
+                  inputName="price"
+                />
               </div>
 
               <div className="flex flex-col mt-4 gap-1">
                 <label htmlFor="" className="text-secondary-100 font-medium">
                   Quantity
                 </label>
-                <RangeWithOpt onUpdateForm={setForm} inputName="quantity" />
+                <RangeWithOpt
+                  curForm={form}
+                  onUpdateForm={setForm}
+                  inputName="quantity"
+                />
               </div>
             </div>
             <div>
@@ -88,6 +96,7 @@ const ProductSearchBar = ({ isShowOpt }) => {
                 options={genre}
                 isShowOpt={isShowOpt}
                 onUpdateForm={setForm}
+                defaultOpt={[]}
               />
             </div>
           </div>

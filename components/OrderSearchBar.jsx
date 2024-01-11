@@ -13,13 +13,13 @@ import DateRangeInput from "./DateRangeInput";
 const OrderSearchBar = () => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   const [form, setForm] = useState({});
-  // console.log(form);
+  console.log(form);
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
         <div
           onClick={() => {
-            setCloseAdvancedFilter((old) => !old);
+            setCloseAdvancedFilter(old => !old);
           }}
           className="cursor-pointer w-56 bg-primary text-secondary-100 font-semibold flex flex-row gap-2 items-center px-3 rounded-s-md"
         >
@@ -31,8 +31,8 @@ const OrderSearchBar = () => {
           borderRadius="none"
           variant="outline"
           placeholder="Search Customer's Order"
-          onChange={(e) =>
-            setForm((old) => ({ ...old, searchKey: e.target.value }))
+          onChange={e =>
+            setForm(old => ({ ...old, searchKey: e.target.value }))
           }
         />
         <Button
@@ -65,7 +65,11 @@ const OrderSearchBar = () => {
                 <label htmlFor="" className="font-medium text-secondary-100">
                   Order's Price
                 </label>
-                <RangeWithOpt inputName="order-price" onUpdateForm={setForm} />
+                <RangeWithOpt
+                  inputName="order-price"
+                  curForm={form}
+                  onUpdateForm={setForm}
+                />
               </div>
 
               <div className="flex flex-col mt-4 gap-1">
@@ -74,6 +78,7 @@ const OrderSearchBar = () => {
                 </label>
                 <RangeWithOpt
                   inputName="order-quantity"
+                  curForm={form}
                   onUpdateForm={setForm}
                 />
               </div>
@@ -83,14 +88,18 @@ const OrderSearchBar = () => {
                 <label htmlFor="" className="font-medium text-secondary-100">
                   Delivery Date
                 </label>
-                <DateRangeInput inputName="date" onUpdateForm={setForm} />
+                <DateRangeInput
+                  inputName="date"
+                  curForm={form}
+                  onUpdateForm={setForm}
+                />
               </div>
               <Checkbox
                 color="#D3EBF3"
                 className="mt-4 font-medium"
                 name="isDelivered"
-                onChange={(e) =>
-                  setForm((old) => ({
+                onChange={e =>
+                  setForm(old => ({
                     ...old,
                     [e.target.name]: e.target.checked,
                   }))

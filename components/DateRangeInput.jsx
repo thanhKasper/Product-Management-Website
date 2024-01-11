@@ -3,8 +3,10 @@ import { Input, Select } from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
 
-const DateRangeInput = ({inputName, onUpdateForm}) => {
-  const [filterOpt, setFilterOpt] = useState('from');
+const DateRangeInput = ({ inputName, curForm, onUpdateForm }) => {
+  const [filterOpt, setFilterOpt] = useState("from");
+  const [betweenChoice, setBetweenChoice] = useState([false, false]);
+
   let inputOpt;
   if (filterOpt == "from") {
     inputOpt = (
@@ -16,13 +18,17 @@ const DateRangeInput = ({inputName, onUpdateForm}) => {
         type="date"
         width="7rem"
         placeholder="from"
-        onChange={e => (
-          onUpdateForm(old => ({
-            ...old,
-            [`${inputName}-start`]: e.target.value,
-            [`${inputName}-end`]: null
-          }))
-        )}
+        onChange={e => {
+          setBetweenChoice([false, false]);
+          onUpdateForm(old => {
+            delete old[`${inputName}-start`];
+            delete old[`${inputName}-end`];
+            return {
+              ...old,
+              [`${inputName}-start`]: e.target.value,
+            };
+          });
+        }}
       />
     );
   } else if (filterOpt == "until")
@@ -35,16 +41,22 @@ const DateRangeInput = ({inputName, onUpdateForm}) => {
         type="date"
         width="7rem"
         placeholder="to"
-        onChange={e =>
-          onUpdateForm(old => ({
-            ...old,
-            [`${inputName}-start`]: null,
-            [`${inputName}-end`]: e.target.value,
-          }))
-        }
+        onChange={e => {
+          setBetweenChoice([false, false]);
+          onUpdateForm(old => {
+            delete old[`${inputName}-start`];
+            delete old[`${inputName}-end`];
+            return {
+              ...old,
+              [`${inputName}-end`]: e.target.value,
+            };
+          });
+        }}
       />
     );
-  else
+  else {
+    if (!betweenChoice[0]) delete curForm[`${inputName}-start`];
+    if (!betweenChoice[1]) delete curForm[`${inputName}-end`];
     inputOpt = (
       <>
         <Input
@@ -55,12 +67,13 @@ const DateRangeInput = ({inputName, onUpdateForm}) => {
           type="date"
           width="7rem"
           placeholder="from"
-          onChange={e =>
-            onUpdateForm(old => ({
-              ...old,
+          onChange={e => {
+            setBetweenChoice(old => [true, old[1]]);
+            onUpdateForm({
+              ...curForm,
               [`${inputName}-start`]: e.target.value,
-            }))
-          }
+            });
+          }}
         />
         <p className="text-secondary-100">-</p>
         <Input
@@ -71,22 +84,22 @@ const DateRangeInput = ({inputName, onUpdateForm}) => {
           type="date"
           width="7rem"
           placeholder="to"
-          onChange={e =>
-            onUpdateForm(old => ({
-              ...old,
-              [`${inputName}-end`]: e.target.value,
-            }))
+          onChange={e => {
+            setBetweenChoice(old => [old[0], true]);
+            onUpdateForm({ ...curForm, [`${inputName}-end`]: e.target.value });
+          }
           }
         />
       </>
     );
+  }
   return (
     <div className="flex items-center gap-2 mt-1">
       <Select
         size="sm"
         width="7rem"
         bgColor="white"
-        defaultValue='From'
+        defaultValue="From"
         borderRadius={4}
         onInput={e => {
           setFilterOpt(e.target.value);
