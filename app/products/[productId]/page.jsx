@@ -10,6 +10,7 @@ const ProductDetail = () => {
   const router = useRouter();
   const [info, setInfo] = useState(null);
   const params = useParams();
+
   const fetchData = async () => {
     try {
       if (params.productId.indexOf("LN") != -1) {
@@ -43,7 +44,25 @@ const ProductDetail = () => {
     fetchData();
   }, []);
 
-  // console.log(info);
+  const deleteProducts = async () => {
+    try {
+      if (params.productId.indexOf("LN") != -1) {
+        const response = await axios.delete(
+          `http://localhost:8000/book/${params.productId}`
+        );
+        console.log(response.data);
+      } else {
+        const response = await axios.delete(
+          `http://localhost:8000/figure/${params.productId}`
+        );
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(info);
+
   const checkGenreorType = (info) => {
     if (info.genre) {
       return info.genre;
@@ -99,7 +118,11 @@ const ProductDetail = () => {
         >
           Edit
         </Button>
-        <Button className="ml-4 mt-4" colorScheme="red">
+        <Button
+          className="ml-4 mt-4"
+          colorScheme="red"
+          onClick={deleteProducts}
+        >
           Delete
         </Button>
       </main>

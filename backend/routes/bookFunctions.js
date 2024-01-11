@@ -3,6 +3,7 @@ const router = require("express").Router();
 const Book = require("../models/book.js");
 const Figure = require("../models/figure.js");
 const Provider = require("../models/provider.js");
+const Order = require("../models/order.js");
 const {
   userVerification,
   userAuthorization,
@@ -105,6 +106,15 @@ router.patch("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
+    const target = await Book.findOne({ id });
+    const orderCounts = await Order.countDocuments({
+      products_book: target,
+    });
+    if (orderCounts > 0) {
+      res.status(400).json({
+        error: "Cannot delete the Book. It is referenced in orders.",
+      });
+    }
     const bok = await Book.findOneAndDelete({ id });
     if (!bok) {
       res.json({ message: "There is no book with this id exits" });
