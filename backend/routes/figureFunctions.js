@@ -92,7 +92,13 @@ router.patch("/:id", async (req, res) => {
 });
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
+  // search that if
   try {
+    const target = await Figure.findOne({ id });
+    const counts = await Order.countDocuments({ "products_figure.product_id": target._id })
+    if (counts > 0) {
+      return res.status(403).json({ message: "This figure has been referenced" })
+    }
     const bok = await Figure.findOneAndDelete({ id });
     if (!bok) {
       res.json({ message: "There is no figure with this id exits" });

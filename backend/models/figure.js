@@ -34,6 +34,3 @@ const figureSchema = new Schema(
   { collection: "Figures", versionKey: false }
 );
 module.exports = mongoose.model("Figure", figureSchema);
-figureSchema.pre("deleteOne", function () {
-  console.log("This figure cannot be deleted duo to legacy ");
-});

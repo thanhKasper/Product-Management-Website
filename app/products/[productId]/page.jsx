@@ -51,11 +51,13 @@ const ProductDetail = () => {
           `http://localhost:8000/book/${params.productId}`
         );
         console.log(response.data);
+        router.push("/products");
       } else {
         const response = await axios.delete(
           `http://localhost:8000/figure/${params.productId}`
         );
         console.log(response.data);
+        router.push("/products");
       }
     } catch (error) {
       console.log(error);
@@ -63,7 +65,7 @@ const ProductDetail = () => {
   };
   console.log(info);
 
-  const checkGenreorType = (info) => {
+  const checkGenreorType = info => {
     if (info.genre) {
       return info.genre;
     }
@@ -76,7 +78,9 @@ const ProductDetail = () => {
       <Sidebar currentPage="Product" />
       <main className="flex-grow px-8 py-4 bg-secondary-100">
         <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-medium max-w-4xl">{info && info.name}</h1>
+          <h1 className="text-4xl font-medium max-w-4xl">
+            {info && info.name}
+          </h1>
           <button
             onClick={() => {
               router.push("/products");
@@ -109,7 +113,9 @@ const ProductDetail = () => {
             )}
           </div>
           <p className="font-semibold">Quantity:</p>
-          <p className="col-span-11">{info && info.product_count.toLocaleString()}</p>
+          <p className="col-span-11">
+            {info && info.product_count.toLocaleString()}
+          </p>
         </div>
         <Button
           className="mt-4"

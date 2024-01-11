@@ -108,11 +108,11 @@ router.delete("/:id", async (req, res) => {
   try {
     const target = await Book.findOne({ id });
     const orderCounts = await Order.countDocuments({
-      products_book: target,
+      "products_book.product_id": target._id,
     });
     if (orderCounts > 0) {
-      res.status(400).json({
-        error: "Cannot delete the Book. It is referenced in orders.",
+      return res.status(403).json({
+        message: "Cannot delete the Book. It is referenced in orders.",
       });
     }
     const bok = await Book.findOneAndDelete({ id });
