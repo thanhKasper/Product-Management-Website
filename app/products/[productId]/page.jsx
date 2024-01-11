@@ -57,7 +57,7 @@ const ProductDetail = () => {
       <Sidebar currentPage="Product" />
       <main className="flex-grow px-8 py-4 bg-secondary-100">
         <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-medium">{info && info.name}</h1>
+          <h1 className="text-4xl font-medium max-w-4xl">{info && info.name}</h1>
           <button
             onClick={() => {
               router.push("/products");
@@ -90,7 +90,7 @@ const ProductDetail = () => {
             )}
           </div>
           <p className="font-semibold">Quantity:</p>
-          <p className="col-span-11">{info && info.product_count}</p>
+          <p className="col-span-11">{info && info.product_count.toLocaleString()}</p>
         </div>
         <Button
           className="mt-4"
