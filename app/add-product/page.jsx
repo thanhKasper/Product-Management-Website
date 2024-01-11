@@ -19,12 +19,12 @@ const AddProduct = () => {
   const router = useRouter();
   const [newProduct, setNewProduct] = useState({});
   const [isShowOpt, setShowOpt] = useState(false);
-  const [genre, setGenre] = useState();
-  console.log(newProduct);
+  const [genre, setGenre] = useState([]);
+  // console.log(newProduct);
   const getGenre = async () => {
     const res = await axios.get("http://localhost:8000/book/genre");
     const genreList = res.data;
-    console.log(genreList);
+    // console.log(genreList);
     setGenre(genreList);
   };
   useEffect(() => {

@@ -1,20 +1,29 @@
 import { Input, Button } from "@chakra-ui/react";
 import MultivaluesAutocomplete from "./MultivaluesAutocomplete";
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RangeWithOpt from "./RangeWithOpt";
+import axios from "axios";
 
 // Search bar need useState from its parent
 const ProductSearchBar = ({ isShowOpt }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   const [form, setForm] = useState({});
-  // console.log(form);
+  const [genre, setGenre] = useState([]);
+  const getGenre = async () => {
+    const res = await axios.get("http://localhost:8000/book/genre");
+    const genreList = res.data;
+    setGenre(genreList);
+  };
+  useEffect(() => {
+    getGenre();
+  }, []);
+  // console.log(genre);
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
         <div
           onClick={() => {
-            setCloseAdvancedFilter((old) => !old);
+            setCloseAdvancedFilter(old => !old);
           }}
           className="cursor-pointer w-56 bg-primary text-secondary-100 font-semibold flex flex-row gap-2 items-center px-3 rounded-s-md"
         >
@@ -27,8 +36,8 @@ const ProductSearchBar = ({ isShowOpt }) => {
           variant="outline"
           placeholder="Search Products"
           name="searchKey"
-          onChange={(e) => {
-            setForm((old) => ({ ...old, [e.target.name]: e.target.value }));
+          onChange={e => {
+            setForm(old => ({ ...old, [e.target.name]: e.target.value }));
           }}
         />
         <Button
@@ -76,15 +85,7 @@ const ProductSearchBar = ({ isShowOpt }) => {
                 Genre/Type
               </label>
               <MultivaluesAutocomplete
-                options={[
-                  "Rom Com",
-                  "Tragedy",
-                  "Drama",
-                  "Fantasy",
-                  "Isekai",
-                  "Shounen",
-                  "Shoujo",
-                ]}
+                options={genre}
                 isShowOpt={isShowOpt}
                 onUpdateForm={setForm}
               />
