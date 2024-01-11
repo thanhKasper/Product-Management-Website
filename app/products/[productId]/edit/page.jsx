@@ -93,7 +93,7 @@ const EditProduct = () => {
           }
         );
         console.log(response.data);
-        //router.push(`/products/${params.productId}`);
+        router.push(`/products/${params.productId}`);
       } else {
         const response = await axios.put(
           `http://localhost:8000/figure/${params.productId}`,
@@ -113,10 +113,11 @@ const EditProduct = () => {
           }
         );
         console.log(response.data);
-        // router.push(`/products/${params.productId}`);
+        router.push(`/products/${params.productId}`);
       }
     } catch (error) {
       console.log(error);
+      
     }
   };
   useEffect(() => {
