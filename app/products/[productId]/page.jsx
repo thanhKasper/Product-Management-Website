@@ -1,12 +1,12 @@
 "use client";
 
 import Sidebar from "../../../components/sidebar";
-import { Button } from "@chakra-ui/react";
-import { Tag } from "@chakra-ui/react";
+import { Button, Tag, useToast} from "@chakra-ui/react";
 import { useRouter, useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 const ProductDetail = () => {
+  const toast = useToast();
   const router = useRouter();
   const [info, setInfo] = useState(null);
   const params = useParams();
@@ -61,6 +61,14 @@ const ProductDetail = () => {
       }
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Cannot Delete Product",
+        description: "You cannot delete this product because it is being referenced",
+        status: "error",
+        duration: 1500,
+        position: "bottom-right",
+        isClosable: true,
+      });
     }
   };
   console.log(info);

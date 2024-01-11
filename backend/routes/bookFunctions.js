@@ -94,8 +94,10 @@ router.post("/create", async (req, res) => {
 });
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
+  const { name, genre, size, price, product_count, provider } = req.body;
   try {
-    const bok = await Book.findOneAndUpdate({ id }, { ...req.body });
+
+    const bok = await Book.findOneAndUpdate({ id }, { name, genre, size, price, product_count, $set: { "provider.name": provider } });
     if (!bok)
       return res.status(404).json({ message: "There no such book exist" });
     res.status(200).json(bok);
