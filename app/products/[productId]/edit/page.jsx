@@ -170,6 +170,7 @@ const EditProduct = () => {
                       [e.target.name]: e.target.value,
                     }));
                   }}
+                  disabled
                 >
                   <option value="LN">Light Novel</option>
                   <option value="FG">Figure</option>
@@ -220,6 +221,7 @@ const EditProduct = () => {
                       [e.target.name]: e.target.value,
                     }));
                   }}
+                  disabled
                 />
               </FormControl>
               <FormControl>
@@ -284,6 +286,7 @@ const EditProduct = () => {
                         };
                       });
                     }}
+                    disabled
                   >
                     <option value="Nendoroid">Nendoroid</option>
                     <option value="Figure">Figure</option>

@@ -80,10 +80,20 @@ router.post("/create", async (req, res) => {
   }
 });
 router.put("/:id", async (req, res) => {
- 
+
   const { id } = req.params;
+  const { name, type, size, price, product_count, provider } = req.body;
   try {
-    const bok = await Figure.findOneAndUpdate({ id }, { ...req.body });
+    const bok = await Figure.findOneAndUpdate({ id }, {
+      $set: {
+        name,
+        type,
+        size,
+        price,
+        product_count,
+        "provider.name": provider && provider.name
+      }
+    });
     if (!bok)
       return res.status(404).json({ message: "There no such figure exist" });
     res.status(200).json(bok);
