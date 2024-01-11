@@ -92,7 +92,7 @@ router.post("/create", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.patch("/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const bok = await Book.findOneAndUpdate({ id }, { ...req.body });

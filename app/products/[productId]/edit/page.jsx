@@ -72,6 +72,53 @@ const EditProduct = () => {
       console.log(error);
     }
   };
+  const editProd = async () => {
+    try {
+      if (params.productId.indexOf("LN") != -1) {
+        const response = await axios.put(
+          `http://localhost:8000/book/${params.productId}`,
+          {
+            name: newProduct.name,
+            genre: newProduct.genre,
+            size: newProduct.size,
+            price: newProduct.price,
+            product_count: newProduct.quantity,
+            provider: newProduct.provider,
+          },
+          {
+            withCredentials: true,
+            /*  headers: {
+          Authorization: `Bearer ${token}`,
+        },*/
+          }
+        );
+        console.log(response.data);
+        //router.push(`/products/${params.productId}`);
+      } else {
+        const response = await axios.put(
+          `http://localhost:8000/figure/${params.productId}`,
+          {
+            name: newProduct.name,
+            type: newProduct.figureType,
+            size: newProduct.size,
+            price: newProduct.price,
+            product_count: newProduct.quantity,
+            provider: newProduct.provider,
+          },
+          {
+            withCredentials: true,
+            /*  headers: {
+          Authorization: `Bearer ${token}`,
+        },*/
+          }
+        );
+        console.log(response.data);
+        // router.push(`/products/${params.productId}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     const getGenre = async () => {
       const res = await axios.get("http://localhost:8000/book/genre");
@@ -253,7 +300,7 @@ const EditProduct = () => {
               >
                 Cancel
               </Button>
-              <Button type="submit" colorScheme="green">
+              <Button type="submit" colorScheme="green" onClick={editProd}>
                 Submit
               </Button>
             </div>

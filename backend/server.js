@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: ["http://localhost:8000", "http://localhost:4999"],
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    methods: ["GET", "PUT", "POST", "DELETE"],
     credentials: true,
   })
 );
