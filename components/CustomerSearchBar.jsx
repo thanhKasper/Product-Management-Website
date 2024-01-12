@@ -5,19 +5,15 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   const [form, setForm] = useState({});
 
-  //console.log(form);
-  const filterData = async () => {
-    console.log(form);
-    const response = await axios.get(
+  const filterData = () => {
+    const response = axios.get(
       `http://localhost:8000/other/filterCustomers?name=${form.searchKey}&address=${form.address}&phone=${form.phone}`
     );
-    console.log(response);
+
     onDatFromChild(response.data);
   };
-  const filterReal = (e) => {
-    e.preventDefault();
-    filterData();
-  };
+  console.log(form);
+
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
@@ -36,10 +32,16 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
           variant="outline"
           placeholder="Search Customer's Order"
           onChange={(e) => {
-            setForm((old) => ({
-              ...old,
-              searchKey: e.target.value,
-            }));
+            setForm((old) => {
+              if (e.target.value == "") {
+                delete old.searchKey;
+                return { ...old };
+              }
+              return {
+                ...old,
+                searchKey: e.target.value,
+              };
+            });
           }}
         />
         <Button
@@ -48,6 +50,7 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
           bgColor="#003756"
           _hover=""
           color="#D3EBF3"
+          onClick={filterData}
         >
           Search
         </Button>
@@ -61,7 +64,10 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
         }`}
       >
         <form
-          onSubmit={filterReal}
+          onSubmit={(e) => {
+            e.preventDefault();
+            filterData();
+          }}
           action=""
           className={`flex flex-col justify-between gap-5 h-full ${
             closeAdvancedFilter ? "hidden" : ""
@@ -71,16 +77,23 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
             <div>
               <div>
                 <label htmlFor="" className="font-medium text-secondary-100">
-                  Address
+                  Email
                 </label>
                 <Input
                   bgColor="white"
                   className="mt-1"
+                  type="email"
                   onChange={(e) => {
-                    setForm((old) => ({
-                      ...old,
-                      address: e.target.value,
-                    }));
+                    setForm((old) => {
+                      if (e.target.value == "") {
+                        delete old.email;
+                        return { ...old };
+                      }
+                      return {
+                        ...old,
+                        email: e.target.value,
+                      };
+                    });
                   }}
                 />
               </div>
@@ -94,10 +107,16 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
                   className="mt-1"
                   type="text"
                   onChange={(e) => {
-                    setForm((old) => ({
-                      ...old,
-                      phone: e.target.value,
-                    }));
+                    setForm((old) => {
+                      if (e.target.value == "") {
+                        delete old.phone;
+                        return { ...old };
+                      }
+                      return {
+                        ...old,
+                        phone: e.target.value,
+                      };
+                    });
                   }}
                 />
               </div>
