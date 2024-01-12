@@ -5,14 +5,13 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   const [form, setForm] = useState({});
 
-  const filterData = () => {
-    const response = axios.get(
-      `http://localhost:8000/other/filterCustomers?name=${form.searchKey}&address=${form.address}&phone=${form.phone}`
+  const filterData = async () => {
+    const response = await axios.get(
+      `http://localhost:8000/other/filterCustomers?name=${form.searchKey}&mail=${form.email}&phone=${form.phone}`
     );
 
     onDatFromChild(response.data);
   };
-  console.log(form);
 
   return (
     <div className="w-full relative">

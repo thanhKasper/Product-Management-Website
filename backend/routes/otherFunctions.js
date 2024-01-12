@@ -108,25 +108,31 @@ router.get("/filterCustomers", async (req, res) => {
     const fullCus = await Customer.find({}).sort({ _id: -1 });
     let filteredCus = fullCus;
 
-    if (name && name != "undefined" && name != "") {
+    if (name != "undefined" && name) {
       filteredCus = fullCus.filter((s) =>
         s.Cname.toLowerCase().includes(name.toLowerCase())
       );
     }
+    if (filteredCus.length == 0) filteredCus = fullCus;
+    let filteredCus1 = filteredCus;
 
-    if (mail && mail == "undefined" && mail == "") {
-      filteredCus = filteredCus.filter((s) =>
+    if (mail != "undefined" && mail) {
+      filteredCus1 = filteredCus1.filter((s) =>
         s.Email.toLowerCase().includes(mail.toLowerCase())
       );
     }
-    if (phone && phone == "undefined" && phone == "") {
-      filteredCus = filteredCus.filter((s) =>
+    if (filteredCus1.length == 0) filteredCus1 = fullCus;
+    let filteredCus2 = filteredCus1;
+    if (phone != "undefined" && phone) {
+      filteredCus2 = filteredCus2.filter((s) =>
         s.Receipt_Info.some((RIelement) =>
           RIelement.Phone_Number.toLowerCase().includes(phone.toLowerCase())
         )
       );
     }
-    res.json(filteredCus);
+    if (filteredCus2.length == 0) filteredCus2 = fullCus;
+
+    res.json(filteredCus2);
   } catch (error) {
     res.json({ error: error.message });
   }
