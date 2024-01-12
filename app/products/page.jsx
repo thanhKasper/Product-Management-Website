@@ -21,6 +21,7 @@ const ProductPage = () => {
   const [isShowOpt, setIsShowOpt] = useState(false);
   const [info, setInfo] = useState(null);
   const [token, setToken] = useState("");
+
   //const [error, setError] = useState(null);
   const checkAuth = () => {
     try {
@@ -106,7 +107,7 @@ const ProductPage = () => {
           </Button>
         </div>
 
-        <ProductSearchBar isShowOpt={isShowOpt} />
+        <ProductSearchBar isShowOpt={isShowOpt} token={token} />
 
         {/* Table will need an array of objects fetched from api */}
         {info && (

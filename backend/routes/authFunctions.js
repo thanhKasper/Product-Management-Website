@@ -36,9 +36,11 @@ router.post("/login", async (req, res, next) => {
       withCredentials: true,
       httpOnly: false,
     });
-    res
-      .status(201)
-      .json({ message: "User logged in successfully", success: true, token });
+    res.status(201).json({
+      message: "User logged in successfully",
+      success: true,
+      token,
+    });
     next();
   } catch (error) {
     console.error(error);

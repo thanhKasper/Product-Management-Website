@@ -48,7 +48,12 @@ const AddProduct = () => {
     }
   };
   const getGenre = async () => {
-    const res = await axios.get("http://localhost:8000/book/genre");
+    const res = await axios.get("http://localhost:8000/book/genre", {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const genreList = res.data;
     // console.log(genreList);
     setGenre(genreList);
@@ -90,9 +95,9 @@ const AddProduct = () => {
           },
           {
             withCredentials: true,
-            /* headers: {
-            Authorization: `Bearer ${token}`,
-          },*/
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         // console.log(response);
@@ -118,9 +123,9 @@ const AddProduct = () => {
           },
           {
             withCredentials: true,
-            /* headers: {
-            Authorization: `Bearer ${token}`,
-          },*/
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         // console.log(response);

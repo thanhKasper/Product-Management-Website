@@ -86,13 +86,25 @@ const ProductDetail = () => {
     try {
       if (params.productId.indexOf("LN") != -1) {
         const response = await axios.delete(
-          `http://localhost:8000/book/${params.productId}`
+          `http://localhost:8000/book/${params.productId}`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         console.log(response.data);
         router.push("/products");
       } else {
         const response = await axios.delete(
-          `http://localhost:8000/figure/${params.productId}`
+          `http://localhost:8000/figure/${params.productId}`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         console.log(response.data);
         router.push("/products");

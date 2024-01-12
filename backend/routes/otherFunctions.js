@@ -100,5 +100,33 @@ router.get("/providers", userVerification, async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+router.get("/filterCustomers", async (req, res) => {
+  const { name, mail, phone } = req.query;
 
+  console.log(name, mail, phone);
+  try {
+    const fullCus = await Customer.find({}).sort({ _id: -1 });
+    let filteredCus = fullCus;
+    if (name) {
+      filteredCus = fullCus.filter((s) =>
+        s.Cname.toLowerCase().includes(name.toLowerCase())
+      );
+    }
+    if (mail) {
+      filteredCus = fullCus.filter((s) =>
+        s.Email.toLowerCase().includes(mail.toLowerCase())
+      );
+    }
+    if (phone) {
+      filteredCus = fullCus.filter((s) =>
+        s.Receipt_Info.some((RIelement) =>
+          RIelement.Phone_Number.toLowerCase().includes(phone.toLowerCase())
+        )
+      );
+    }
+    res.json(filteredCus);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
 module.exports = router;
