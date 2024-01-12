@@ -2,6 +2,8 @@ const router = require("express").Router();
 const Order = require("../models/order.js");
 const Provider = require("../models/provider.js");
 const Customer = require("../models/customer.js");
+const Book = require("../models/book.js");
+const Figure = require("../models/figure.js");
 const { userVerification } = require("../middlewares/AuthMiddleware.js");
 const getTotalprice = (products, figures) => {
   let total = 0;
@@ -189,7 +191,6 @@ router.get("/filterOrders", async (req, res) => {
         name != "undefined" &&
         filteredOrder.customer.Cname.indexOf(name) == -1
       ) {
-        console.log("Name filter");
         continue;
       }
 
@@ -237,6 +238,80 @@ router.get("/filterOrders", async (req, res) => {
         continue;
       }
       finalResult.push(filteredOrder);
+    }
+
+    res.json(finalResult);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
+router.get("/filterProducts", async (req, res) => {
+  const {
+    name,
+    price_start,
+    price_end,
+    quantity_start,
+    quantity_end,
+    genre_type,
+  } = req.query;
+  let genre_type1 = genre_type.split(",");
+  if (genre_type1[0] == "") {
+    genre_type1 = [];
+  }
+  console.log(genre_type1);
+  try {
+    const fullBooks = await Book.find({}).sort({ _id: 1 });
+    const fullFigures = await Figure.find({}).sort({ _id: 1 });
+    const bigArray = fullBooks.concat(fullFigures);
+    let finalResult = [];
+    for (const filteredProduct of bigArray) {
+      console.log(filteredProduct);
+      if (name != "undefined" && filteredProduct.name.indexOf(name) == -1) {
+        console.log(1);
+        continue;
+      }
+
+      if (price_start != "undefined" && filteredProduct.price < price_start) {
+        console.log(2);
+        continue;
+      }
+      if (price_end != "undefined" && filteredProduct.price > price_end) {
+        console.log(3);
+        continue;
+      }
+      if (
+        quantity_start != "undefined" &&
+        filteredProduct.product_count < quantity_start
+      ) {
+        console.log(4);
+        continue;
+      }
+      if (
+        quantity_end != "undefined" &&
+        filteredProduct.product_count > quantity_end
+      ) {
+        console.log(5);
+        continue;
+      }
+      let checke = true;
+      if (filteredProduct.genre) {
+        for (const genre of genre_type1) {
+          if (!filteredProduct.genre.includes(genre)) {
+            checke = false;
+            break;
+          }
+        }
+        console.log(checke);
+        console.log(6);
+      } else {
+        checke = true;
+      }
+
+      if (!checke) {
+        console.log(7);
+        continue;
+      }
+      finalResult.push(filteredProduct);
     }
 
     res.json(finalResult);

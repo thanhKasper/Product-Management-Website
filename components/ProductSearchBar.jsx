@@ -9,6 +9,7 @@ const ProductSearchBar = ({ isShowOpt, token, updateInfo }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   const [form, setForm] = useState({});
   const [genre, setGenre] = useState([]);
+  console.log(form);
   const getGenre = async () => {
     const res = await axios.get("http://localhost:8000/book/genre", {
       withCredentials: true,
@@ -24,7 +25,10 @@ const ProductSearchBar = ({ isShowOpt, token, updateInfo }) => {
   }, []);
 
   const fetchFilterData = async () => {
-    const response = await axios.get();
+    const response = await axios.get(
+      `http://localhost:8000/other/filterProducts?name=${form.searchKey}&price_start=${form["price-start"]}&price_end=${form["price-end"]}&quantity_start=${form["quantity-start"]}&quantity_end=${form["quantity-end"]}&genre_type=${form.genre}`
+    );
+    console.log(response);
     updateInfo(response.data);
   };
 
@@ -33,7 +37,7 @@ const ProductSearchBar = ({ isShowOpt, token, updateInfo }) => {
       <div id="product-search" className="flex mt-6">
         <div
           onClick={() => {
-            setCloseAdvancedFilter(old => !old);
+            setCloseAdvancedFilter((old) => !old);
           }}
           className="cursor-pointer w-56 bg-primary text-secondary-100 font-semibold flex flex-row gap-2 items-center px-3 rounded-s-md"
         >
@@ -46,8 +50,14 @@ const ProductSearchBar = ({ isShowOpt, token, updateInfo }) => {
           variant="outline"
           placeholder="Search Products"
           name="searchKey"
-          onChange={e => {
-            setForm(old => ({ ...old, [e.target.name]: e.target.value }));
+          onChange={(e) => {
+            setForm((old) => {
+              if (e.target.value == "") {
+                delete old.searchKey;
+                return { ...old };
+              }
+              return { ...old, [e.target.name]: e.target.value };
+            });
           }}
         />
         <Button
@@ -70,7 +80,7 @@ const ProductSearchBar = ({ isShowOpt, token, updateInfo }) => {
         }`}
       >
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             fetchFilterData();
           }}
@@ -119,7 +129,7 @@ const ProductSearchBar = ({ isShowOpt, token, updateInfo }) => {
             <Button size="sm" colorScheme="red">
               Reset
             </Button>
-            <Button size="sm" colorScheme="messenger">
+            <Button size="sm" colorScheme="messenger" type="submit">
               Apply
             </Button>
           </div>
