@@ -87,7 +87,7 @@ const CustomerPage = () => {
         <div className="flex justify-between items-center">
           <h1 className="font-bold text-primary text-5xl">Customers</h1>
         </div>
-        <CustomerSearchBar onDatFromChild={setInfo} />
+        <CustomerSearchBar onDatFromChild={setInfo}/>
         {info && (
           <TableContainer marginTop={6} overflowY="scroll" maxWidth="100%">
             <Table variant="simple" bgColor={"white"} overflowY={"scroll"}>

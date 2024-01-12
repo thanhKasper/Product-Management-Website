@@ -5,13 +5,12 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   const [form, setForm] = useState({});
 
-  console.log(form);
   const filterData = () => {
     const response = axios.get(
       `http://localhost:8000/other/filterCustomers?name=${form.searchKey}&address=${form.address}&phone=${form.phone}`
     );
 
-    onDatFromChild(newInfo);
+    onDatFromChild(response.data);
   };
 
   return (
@@ -44,6 +43,7 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
           bgColor="#003756"
           _hover=""
           color="#D3EBF3"
+          onClick={filterData}
         >
           Search
         </Button>
@@ -57,7 +57,10 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
         }`}
       >
         <form
-          onSubmit={filterData}
+          onSubmit={(e) => {
+            e.preventDefault()
+            filterData();
+          }}
           action=""
           className={`flex flex-col justify-between gap-5 h-full ${
             closeAdvancedFilter ? "hidden" : ""
