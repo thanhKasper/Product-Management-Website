@@ -13,14 +13,40 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-
+import Cookies from "js-cookie";
 const AddProduct = () => {
-  const toast = useToast()
+  const toast = useToast();
   const router = useRouter();
   const [newProduct, setNewProduct] = useState({});
   const [isShowOpt, setShowOpt] = useState(false);
   const [genre, setGenre] = useState([]);
   // console.log(newProduct);
+  const [token, setToken] = useState("");
+  const checkAuth = () => {
+    try {
+      // Retrieve the token from the cookie
+      const storedToken = Cookies.get("token");
+
+      // Set the token in the component state
+      setToken(storedToken);
+
+      // Redirect to the login page if no token is found
+      if (!storedToken) {
+        router.push("/login");
+      }
+      return new Promise((resolve) => {
+        // Simulate asynchronous operation (e.g., API call)
+        setTimeout(() => {
+          console.log("checkAuth completed");
+          resolve();
+        }, 1000);
+      });
+    } catch (error) {
+      console.error("Error checking authentication:", error);
+      // Handle error (e.g., redirect to login page)
+      router.push("/login");
+    }
+  };
   const getGenre = async () => {
     const res = await axios.get("http://localhost:8000/book/genre");
     const genreList = res.data;
@@ -28,10 +54,22 @@ const AddProduct = () => {
     setGenre(genreList);
   };
   useEffect(() => {
-    getGenre();
+    const fetchDataAndCheckAuth = async () => {
+      try {
+        // Wait for checkAuth to complete
+        await checkAuth();
+
+        // After checkAuth is done, proceed with getGenre
+        await getGenre();
+      } catch (error) {
+        console.error("Error during checkAuth or fetchData:", error);
+      }
+    };
+
+    fetchDataAndCheckAuth();
   }, []);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (newProduct.type === "LN" && newProduct.genre.length === 0) {
@@ -62,11 +100,11 @@ const AddProduct = () => {
           title: "Product Added",
           description: "New Product added to the database",
           status: "success",
-          position: 'bottom-right',
+          position: "bottom-right",
           duration: 4000,
           isClosable: true,
         });
-        router.push('/products')
+        router.push("/products");
       } else if (newProduct.type === "FG") {
         const response = axios.post(
           "http://localhost:8000/figure/create",
@@ -111,7 +149,7 @@ const AddProduct = () => {
   return (
     <section
       className="flex"
-      onClick={e => {
+      onClick={(e) => {
         const eleID = e.target?.attributes[0]?.value;
         if (eleID == "genre-input") {
           setShowOpt(true);
@@ -137,8 +175,8 @@ const AddProduct = () => {
                 placeholder="Choose option"
                 name="type"
                 required
-                onInput={e => {
-                  setNewProduct(old => ({
+                onInput={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -155,8 +193,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="name"
                 required
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -172,8 +210,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="size"
                 required
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -187,8 +225,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="provider"
                 required
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -202,8 +240,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="quantity"
                 required
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -217,8 +255,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="price"
                 required
-                onChange={e => {
-                  setNewProduct(old => ({
+                onChange={(e) => {
+                  setNewProduct((old) => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -248,8 +286,8 @@ const AddProduct = () => {
                   name="figureType"
                   required
                   placeholder="Figure Type"
-                  onInput={e => {
-                    setNewProduct(old => {
+                  onInput={(e) => {
+                    setNewProduct((old) => {
                       delete old.genre;
                       return {
                         ...old,

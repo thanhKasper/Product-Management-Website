@@ -14,6 +14,7 @@ import {
 import { useRouter, useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 const getTotalprice = (products, figures) => {
   let total = 0;
   for (const product of products) {
@@ -37,6 +38,32 @@ const OrderDetail = () => {
   const router = useRouter();
   const params = useParams();
   const [info, setInfo] = useState(null);
+  const [token, setToken] = useState("");
+  const checkAuth = () => {
+    try {
+      // Retrieve the token from the cookie
+      const storedToken = Cookies.get("token");
+
+      // Set the token in the component state
+      setToken(storedToken);
+
+      // Redirect to the login page if no token is found
+      if (!storedToken) {
+        router.push("/login");
+      }
+      return new Promise((resolve) => {
+        // Simulate asynchronous operation (e.g., API call)
+        setTimeout(() => {
+          console.log("checkAuth completed");
+          resolve();
+        }, 1000);
+      });
+    } catch (error) {
+      console.error("Error checking authentication:", error);
+      // Handle error (e.g., redirect to login page)
+      router.push("/login");
+    }
+  };
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -55,7 +82,19 @@ const OrderDetail = () => {
     }
   };
   useEffect(() => {
-    fetchData();
+    const fetchDataAndCheckAuth = async () => {
+      try {
+        // Wait for checkAuth to complete
+        await checkAuth();
+
+        // After checkAuth is done, proceed with fetchData
+        await fetchData();
+      } catch (error) {
+        console.error("Error during checkAuth or fetchData:", error);
+      }
+    };
+
+    fetchDataAndCheckAuth();
   }, []);
   console.log(info);
   return (
