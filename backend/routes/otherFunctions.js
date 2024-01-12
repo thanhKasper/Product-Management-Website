@@ -3,7 +3,7 @@ const Order = require("../models/order.js");
 const Provider = require("../models/provider.js");
 const Customer = require("../models/customer.js");
 const { userVerification } = require("../middlewares/AuthMiddleware.js");
-router.get("/customers", async (req, res) => {
+router.get("/customers", userVerification, async (req, res) => {
   try {
     const result = await Customer.find({}).sort({ _id: -1 });
 
@@ -16,7 +16,7 @@ router.get("/customers", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.get("/customers/:id", async (req, res) => {
+router.get("/customers/:id", userVerification, async (req, res) => {
   const { id } = req.params;
   try {
     const result = await Customer.findOne({ id });
@@ -30,7 +30,7 @@ router.get("/customers/:id", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.get("/orders", async (req, res) => {
+router.get("/orders", userVerification, async (req, res) => {
   try {
     const result = await Order.find({})
       .sort({ _id: -1 })
@@ -58,7 +58,7 @@ router.get("/orders", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.get("/orders/:_id", async (req, res) => {
+router.get("/orders/:_id", userVerification, async (req, res) => {
   const { _id } = req.params;
   try {
     const result = await Order.findOne({ _id })

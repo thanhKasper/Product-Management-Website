@@ -13,7 +13,7 @@ const getNewID = (lastID) => {
   const nextNumericPart = numericPart + 1;
   return `LN${nextNumericPart.toString().padStart(5, "0")}`;
 };
-router.get("/genre", async (req, res) => {
+router.get("/genre", userVerification, async (req, res) => {
   try {
     const boks = await Book.distinct("genre");
     if (boks) {
@@ -25,7 +25,7 @@ router.get("/genre", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.get("/", async (req, res) => {
+router.get("/", userVerification, async (req, res) => {
   try {
     const boks = await Book.find({}).sort({ id: 1 });
     const figs = await Figure.find({}).sort({ id: 1 });
@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.get("/:id", async (req, res) => {
+router.get("/:id", userVerification, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -54,7 +54,7 @@ router.get("/:id", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.post("/create", async (req, res) => {
+router.post("/create", userAuthorization, async (req, res) => {
   const { size, genre, price, name, product_count, provider } = req.body;
 
   try {
@@ -92,21 +92,23 @@ router.post("/create", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.put("/:id", async (req, res) => {
+router.put("/:id", userAuthorization, async (req, res) => {
   const { id } = req.params;
   const { name, genre, size, price, product_count, provider } = req.body;
   try {
-
-    const bok = await Book.findOneAndUpdate({ id }, {
-      $set: {
-        name,
-        genre,
-        size,
-        price,
-        product_count,
-        "provider.name": provider && provider.name
+    const bok = await Book.findOneAndUpdate(
+      { id },
+      {
+        $set: {
+          name,
+          genre,
+          size,
+          price,
+          product_count,
+          "provider.name": provider && provider.name,
+        },
       }
-    });
+    );
     if (!bok)
       return res.status(404).json({ message: "There no such book exist" });
     res.status(200).json(bok);
@@ -114,7 +116,7 @@ router.put("/:id", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", userAuthorization, async (req, res) => {
   const { id } = req.params;
   try {
     const target = await Book.findOne({ id });
