@@ -19,6 +19,7 @@ const OrderSearchBar = ({ updateInfo }) => {
     const response = await axios.get();
     updateInfo(response.data);
   };
+  console.log(form)
 
   return (
     <div className="w-full relative">

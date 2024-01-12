@@ -23,6 +23,10 @@ const DateRangeInput = ({ inputName, curForm, onUpdateForm }) => {
           onUpdateForm(old => {
             delete old[`${inputName}-start`];
             delete old[`${inputName}-end`];
+            if (e.target.value === "") {
+              delete old[`${inputName}-start`];
+              return { ...old };
+            }
             return {
               ...old,
               [`${inputName}-start`]: e.target.value,
@@ -46,6 +50,10 @@ const DateRangeInput = ({ inputName, curForm, onUpdateForm }) => {
           onUpdateForm(old => {
             delete old[`${inputName}-start`];
             delete old[`${inputName}-end`];
+            if (e.target.value === "") {
+              delete old[`${inputName}-end`];
+              return { ...old };
+            }
             return {
               ...old,
               [`${inputName}-end`]: e.target.value,
@@ -69,9 +77,15 @@ const DateRangeInput = ({ inputName, curForm, onUpdateForm }) => {
           placeholder="from"
           onChange={e => {
             setBetweenChoice(old => [true, old[1]]);
-            onUpdateForm({
-              ...curForm,
-              [`${inputName}-start`]: e.target.value,
+            onUpdateForm(old => {
+              if (e.target.value === "") {
+                delete old[`${inputName}-start`];
+                return { ...old };
+              }
+              return {
+                ...curForm,
+                [`${inputName}-start`]: e.target.value,
+              };
             });
           }}
         />
@@ -86,9 +100,17 @@ const DateRangeInput = ({ inputName, curForm, onUpdateForm }) => {
           placeholder="to"
           onChange={e => {
             setBetweenChoice(old => [old[0], true]);
-            onUpdateForm({ ...curForm, [`${inputName}-end`]: e.target.value });
-          }
-          }
+            onUpdateForm(old => {
+              if (e.target.value === "") {
+                delete old[`${inputName}-start`];
+                return { ...old };
+              }
+              return {
+                ...curForm,
+                [`${inputName}-start`]: e.target.value,
+              };
+            });
+          }}
         />
       </>
     );

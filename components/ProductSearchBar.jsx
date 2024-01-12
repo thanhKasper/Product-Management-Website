@@ -24,16 +24,16 @@ const ProductSearchBar = ({ isShowOpt, token, updateInfo }) => {
   }, []);
 
   const fetchFilterData = async () => {
-    const response = await axios.get()
-    updateInfo(response.data)
-  }
-  
+    const response = await axios.get();
+    updateInfo(response.data);
+  };
+
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
         <div
           onClick={() => {
-            setCloseAdvancedFilter((old) => !old);
+            setCloseAdvancedFilter(old => !old);
           }}
           className="cursor-pointer w-56 bg-primary text-secondary-100 font-semibold flex flex-row gap-2 items-center px-3 rounded-s-md"
         >
@@ -46,8 +46,8 @@ const ProductSearchBar = ({ isShowOpt, token, updateInfo }) => {
           variant="outline"
           placeholder="Search Products"
           name="searchKey"
-          onChange={(e) => {
-            setForm((old) => ({ ...old, [e.target.name]: e.target.value }));
+          onChange={e => {
+            setForm(old => ({ ...old, [e.target.name]: e.target.value }));
           }}
         />
         <Button
@@ -71,8 +71,8 @@ const ProductSearchBar = ({ isShowOpt, token, updateInfo }) => {
       >
         <form
           onSubmit={e => {
-            e.preventDefault()
-            fetchFilterData()
+            e.preventDefault();
+            fetchFilterData();
           }}
           className={`flex flex-col justify-between gap-5 h-full ${
             closeAdvancedFilter ? "hidden" : ""
