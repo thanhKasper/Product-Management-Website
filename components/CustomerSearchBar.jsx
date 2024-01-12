@@ -1,16 +1,25 @@
 import { Input, Button } from "@chakra-ui/react";
 import React, { useState } from "react";
-
-const CustomerSearchBar = () => {
+import axios from "axios";
+const CustomerSearchBar = ({ onDatFromChild }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
-  const [form, setForm] = useState({})
-  console.log(form)
+  const [form, setForm] = useState({});
+
+  console.log(form);
+  const filterData = () => {
+    const response = axios.get(
+      `http://localhost:8000/other/filterCustomers?name=${form.searchKey}&address=${form.address}&phone=${form.phone}`
+    );
+
+    onDatFromChild(newInfo);
+  };
+
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
         <div
           onClick={() => {
-            setCloseAdvancedFilter(old => !old);
+            setCloseAdvancedFilter((old) => !old);
           }}
           className="cursor-pointer w-56 bg-primary text-secondary-100 font-semibold flex flex-row gap-2 items-center px-3 rounded-s-md"
         >
@@ -22,8 +31,8 @@ const CustomerSearchBar = () => {
           borderRadius="none"
           variant="outline"
           placeholder="Search Customer's Order"
-          onChange={e => {
-            setForm(old => ({
+          onChange={(e) => {
+            setForm((old) => ({
               ...old,
               searchKey: e.target.value,
             }));
@@ -48,6 +57,7 @@ const CustomerSearchBar = () => {
         }`}
       >
         <form
+          onSubmit={filterData}
           action=""
           className={`flex flex-col justify-between gap-5 h-full ${
             closeAdvancedFilter ? "hidden" : ""
@@ -62,8 +72,8 @@ const CustomerSearchBar = () => {
                 <Input
                   bgColor="white"
                   className="mt-1"
-                  onChange={e => {
-                    setForm(old => ({
+                  onChange={(e) => {
+                    setForm((old) => ({
                       ...old,
                       address: e.target.value,
                     }));
@@ -78,9 +88,9 @@ const CustomerSearchBar = () => {
                 <Input
                   bgColor="white"
                   className="mt-1"
-                  type="number"
-                  onChange={e => {
-                    setForm(old => ({
+                  type="text"
+                  onChange={(e) => {
+                    setForm((old) => ({
                       ...old,
                       phone: e.target.value,
                     }));
@@ -95,7 +105,7 @@ const CustomerSearchBar = () => {
             <Button size="sm" colorScheme="red">
               Reset
             </Button>
-            <Button size="sm" colorScheme="messenger">
+            <Button size="sm" colorScheme="messenger" type="submit">
               Apply
             </Button>
           </div>

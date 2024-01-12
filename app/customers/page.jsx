@@ -20,6 +20,7 @@ const CustomerPage = () => {
   const [info, setInfo] = useState(null);
   const router = useRouter();
   const [token, setToken] = useState("");
+
   const checkAuth = () => {
     try {
       // Retrieve the token from the cookie
@@ -78,6 +79,7 @@ const CustomerPage = () => {
     fetchDataAndCheckAuth();
   }, []);
   console.log(info);
+
   return (
     <section className="flex bg-secondary-100">
       <Sidebar currentPage="Customer" />
@@ -85,7 +87,7 @@ const CustomerPage = () => {
         <div className="flex justify-between items-center">
           <h1 className="font-bold text-primary text-5xl">Customers</h1>
         </div>
-        <CustomerSearchBar />
+        <CustomerSearchBar onDatFromChild={setInfo} />
         {info && (
           <TableContainer marginTop={6} overflowY="scroll" maxWidth="100%">
             <Table variant="simple" bgColor={"white"} overflowY={"scroll"}>
