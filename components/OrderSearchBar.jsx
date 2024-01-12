@@ -10,10 +10,16 @@ import {
 import RangeWithOpt from "./RangeWithOpt";
 import DateRangeInput from "./DateRangeInput";
 
-const OrderSearchBar = () => {
+const OrderSearchBar = ({ updateInfo }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   const [form, setForm] = useState({});
-  // console.log(form);
+
+  // apply the filter the send to the server
+  const getFilterData = async () => {
+    const response = await axios.get();
+    updateInfo(response.data);
+  };
+
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
@@ -32,7 +38,13 @@ const OrderSearchBar = () => {
           variant="outline"
           placeholder="Search Customer's Order"
           onChange={e =>
-            setForm(old => ({ ...old, searchKey: e.target.value }))
+            setForm(old => {
+              if (e.target.value === "") {
+                delete old.searchKey;
+                return { ...old };
+              }
+              return { ...old, searchKey: e.target.value };
+            })
           }
         />
         <Button
@@ -41,6 +53,7 @@ const OrderSearchBar = () => {
           bgColor="#003756"
           _hover=""
           color="#D3EBF3"
+          onClick={getFilterData}
         >
           Search
         </Button>
@@ -54,7 +67,10 @@ const OrderSearchBar = () => {
         }`}
       >
         <form
-          action=""
+          onSubmit={e => {
+            e.preventDefault();
+            getFilterData();
+          }}
           className={`flex flex-col justify-between gap-5 h-full ${
             closeAdvancedFilter ? "hidden" : ""
           }`}

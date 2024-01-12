@@ -97,7 +97,7 @@ const OrderPage = () => {
         <div className="flex justify-between items-center">
           <h1 className="font-bold text-primary text-5xl">Orders</h1>
         </div>
-        <OrderSearchBar />
+        <OrderSearchBar updateInfo={setInfo}/>
         {info && (
           <TableContainer marginTop={6} overflowY="scroll" maxWidth="100%">
             <Table variant="simple" bgColor={"white"} overflowY={"scroll"}>

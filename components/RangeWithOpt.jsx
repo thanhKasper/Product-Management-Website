@@ -44,6 +44,10 @@ const RangeWithOpt = ({ onUpdateForm, curForm, inputName }) => {
           onUpdateForm(old => {
             delete old[`${inputName}-start`];
             delete old[`${inputName}-end`];
+            if (old[`${inputName}-start`] === "") {
+              delete old[`${inputName}-end`];
+              return { ...old };
+            }
             return { ...old, [e.target.name]: e.target.value };
           });
         }}
@@ -66,6 +70,10 @@ const RangeWithOpt = ({ onUpdateForm, curForm, inputName }) => {
           onChange={e => {
             setBetweenChoice(old => [true, old[1]]);
             onUpdateForm(old => {
+              if (old[`${inputName}-start`] === "") {
+                delete old[`${inputName}-start`];
+                return { ...old };
+              }
               return { ...old, [e.target.name]: e.target.value };
             });
           }}
@@ -83,6 +91,10 @@ const RangeWithOpt = ({ onUpdateForm, curForm, inputName }) => {
           onChange={e => {
             setBetweenChoice(old => [old[0], true]);
             onUpdateForm(old => {
+              if (old[`${inputName}-start`] === "") {
+                delete old[`${inputName}-end`];
+                return { ...old };
+              }
               return { ...old, [e.target.name]: e.target.value };
             });
           }}
