@@ -12,7 +12,7 @@ import DateRangeInput from "./DateRangeInput";
 
 const OrderSearchBar = ({ updateInfo }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({isDelivered: false});
 
   // apply the filter the send to the server
   const getFilterData = async () => {
