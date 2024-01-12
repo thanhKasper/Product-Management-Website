@@ -107,18 +107,20 @@ router.get("/filterCustomers", async (req, res) => {
   try {
     const fullCus = await Customer.find({}).sort({ _id: -1 });
     let filteredCus = fullCus;
-    if (name) {
+
+    if (name && name != "undefined" && name != "") {
       filteredCus = fullCus.filter((s) =>
         s.Cname.toLowerCase().includes(name.toLowerCase())
       );
     }
-    if (mail) {
-      filteredCus = fullCus.filter((s) =>
+
+    if (mail && mail == "undefined" && mail == "") {
+      filteredCus = filteredCus.filter((s) =>
         s.Email.toLowerCase().includes(mail.toLowerCase())
       );
     }
-    if (phone) {
-      filteredCus = fullCus.filter((s) =>
+    if (phone && phone == "undefined" && phone == "") {
+      filteredCus = filteredCus.filter((s) =>
         s.Receipt_Info.some((RIelement) =>
           RIelement.Phone_Number.toLowerCase().includes(phone.toLowerCase())
         )

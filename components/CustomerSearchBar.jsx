@@ -5,15 +5,19 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   const [form, setForm] = useState({});
 
-  console.log(form);
-  const filterData = () => {
-    const response = axios.get(
+  //console.log(form);
+  const filterData = async () => {
+    console.log(form);
+    const response = await axios.get(
       `http://localhost:8000/other/filterCustomers?name=${form.searchKey}&address=${form.address}&phone=${form.phone}`
     );
-
-    onDatFromChild(newInfo);
+    console.log(response);
+    onDatFromChild(response.data);
   };
-
+  const filterReal = (e) => {
+    e.preventDefault();
+    filterData();
+  };
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
@@ -57,7 +61,7 @@ const CustomerSearchBar = ({ onDatFromChild }) => {
         }`}
       >
         <form
-          onSubmit={filterData}
+          onSubmit={filterReal}
           action=""
           className={`flex flex-col justify-between gap-5 h-full ${
             closeAdvancedFilter ? "hidden" : ""
