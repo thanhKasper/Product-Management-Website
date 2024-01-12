@@ -13,7 +13,7 @@ import DateRangeInput from "./DateRangeInput";
 const OrderSearchBar = () => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   const [form, setForm] = useState({});
-  console.log(form);
+  // console.log(form);
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">

@@ -57,15 +57,16 @@ const CustomerSearchBar = () => {
             <div>
               <div>
                 <label htmlFor="" className="font-medium text-secondary-100">
-                  Address
+                  Email
                 </label>
                 <Input
                   bgColor="white"
                   className="mt-1"
+                  type='email'
                   onChange={e => {
                     setForm(old => ({
                       ...old,
-                      address: e.target.value,
+                      email: e.target.value,
                     }));
                   }}
                 />

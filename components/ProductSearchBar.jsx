@@ -17,7 +17,7 @@ const ProductSearchBar = ({ isShowOpt }) => {
   useEffect(() => {
     getGenre();
   }, []);
-  console.log(form)
+  // console.log(form)
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
