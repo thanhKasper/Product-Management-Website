@@ -162,7 +162,6 @@ router.get("/filterOrders", async (req, res) => {
     isDelivered,
   } = req.query;
 
-  console.log(req.query);
   const date1 = new Date(date_start);
   const date2 = new Date(date_end);
   try {
@@ -234,12 +233,12 @@ router.get("/filterOrders", async (req, res) => {
       if (date_end != "undefined" && filteredOrder.order_date > date2) {
         continue;
       }
-      if (isDelivered != filteredOrder.isDelivered) {
+      if (isDelivered != filteredOrder.delivered.toString()) {
         continue;
       }
       finalResult.push(filteredOrder);
     }
-    console.log(finalResult);
+
     res.json(finalResult);
   } catch (error) {
     res.json({ error: error.message });
