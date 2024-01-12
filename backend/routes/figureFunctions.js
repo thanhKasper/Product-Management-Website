@@ -26,7 +26,7 @@ router.get("/", userVerification, async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.get("/:id", async (req, res) => {
+router.get("/:id", userVerification, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -41,7 +41,7 @@ router.get("/:id", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.post("/create", async (req, res) => {
+router.post("/create", userAuthorization, async (req, res) => {
   const { size, type, price, name, product_count, provider } = req.body;
 
   try {
@@ -79,21 +79,23 @@ router.post("/create", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.put("/:id", async (req, res) => {
-
+router.put("/:id", userAuthorization, async (req, res) => {
   const { id } = req.params;
   const { name, type, size, price, product_count, provider } = req.body;
   try {
-    const bok = await Figure.findOneAndUpdate({ id }, {
-      $set: {
-        name,
-        type,
-        size,
-        price,
-        product_count,
-        "provider.name": provider && provider.name
+    const bok = await Figure.findOneAndUpdate(
+      { id },
+      {
+        $set: {
+          name,
+          type,
+          size,
+          price,
+          product_count,
+          "provider.name": provider && provider.name,
+        },
       }
-    });
+    );
     if (!bok)
       return res.status(404).json({ message: "There no such figure exist" });
     res.status(200).json(bok);
@@ -101,14 +103,18 @@ router.put("/:id", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", userAuthorization, async (req, res) => {
   const { id } = req.params;
   // search that if
   try {
     const target = await Figure.findOne({ id });
-    const counts = await Order.countDocuments({ "products_figure.product_id": target._id })
+    const counts = await Order.countDocuments({
+      "products_figure.product_id": target._id,
+    });
     if (counts > 0) {
-      return res.status(403).json({ message: "This figure has been referenced" })
+      return res
+        .status(403)
+        .json({ message: "This figure has been referenced" });
     }
     const bok = await Figure.findOneAndDelete({ id });
     if (!bok) {

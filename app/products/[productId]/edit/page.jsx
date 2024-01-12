@@ -12,7 +12,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import axios from "axios";
-
+import Cookies from "js-cookie";
 const EditProduct = () => {
   const router = useRouter();
   const params = useParams();
@@ -21,6 +21,32 @@ const EditProduct = () => {
   const [genre, setGenre] = useState();
   const [loading, setLoading] = useState(true);
   //console.log(newProduct);
+  const [token, setToken] = useState("");
+  const checkAuth = () => {
+    try {
+      // Retrieve the token from the cookie
+      const storedToken = Cookies.get("token");
+
+      // Set the token in the component state
+      setToken(storedToken);
+
+      // Redirect to the login page if no token is found
+      if (!storedToken) {
+        router.push("/login");
+      }
+      return new Promise((resolve) => {
+        // Simulate asynchronous operation (e.g., API call)
+        setTimeout(() => {
+          console.log("checkAuth completed");
+          resolve();
+        }, 1000);
+      });
+    } catch (error) {
+      console.error("Error checking authentication:", error);
+      // Handle error (e.g., redirect to login page)
+      router.push("/login");
+    }
+  };
   const getInfoProducts = async () => {
     try {
       if (params.productId.indexOf("LN") != -1) {
@@ -33,7 +59,7 @@ const EditProduct = () => {
         },*/
           }
         );
-        setNewProduct(old => {
+        setNewProduct((old) => {
           return {
             type: response.data.id.indexOf("LN") != -1 ? "LN" : "FG",
             name: response.data.name,
@@ -55,7 +81,7 @@ const EditProduct = () => {
         },*/
           }
         );
-        setNewProduct(old => {
+        setNewProduct((old) => {
           return {
             type: response.data.id.indexOf("LN") != -1 ? "LN" : "FG",
             name: response.data.name,
@@ -117,17 +143,28 @@ const EditProduct = () => {
       }
     } catch (error) {
       console.log(error);
-      
     }
   };
+  const getGenre = async () => {
+    const res = await axios.get("http://localhost:8000/book/genre");
+    const genreList = res.data;
+    setGenre(genreList);
+  };
   useEffect(() => {
-    const getGenre = async () => {
-      const res = await axios.get("http://localhost:8000/book/genre");
-      const genreList = res.data;
-      setGenre(genreList);
+    const fetchDataAndCheckAuth = async () => {
+      try {
+        // Wait for checkAuth to complete
+        await checkAuth();
+
+        // After checkAuth is done, proceed with fetchData
+        await getGenre();
+        await getInfoProducts();
+      } catch (error) {
+        console.error("Error during checkAuth or fetchData:", error);
+      }
     };
-    getGenre();
-    getInfoProducts();
+
+    fetchDataAndCheckAuth();
   }, []);
 
   function handleSubmit(e) {
@@ -138,7 +175,7 @@ const EditProduct = () => {
   return (
     <section
       className="flex"
-      onClick={e => {
+      onClick={(e) => {
         const eleID = e.target?.attributes[0]?.value;
         if (eleID == "genre-input") {
           setShowOpt(true);
@@ -165,8 +202,8 @@ const EditProduct = () => {
                   placeholder="Choose option"
                   name="type"
                   value={newProduct.type}
-                  onInput={e => {
-                    setNewProduct(old => ({
+                  onInput={(e) => {
+                    setNewProduct((old) => ({
                       ...old,
                       [e.target.name]: e.target.value,
                     }));
@@ -184,8 +221,8 @@ const EditProduct = () => {
                   bgColor="white"
                   name="name"
                   value={newProduct.name}
-                  onChange={e => {
-                    setNewProduct(old => ({
+                  onChange={(e) => {
+                    setNewProduct((old) => ({
                       ...old,
                       [e.target.name]: e.target.value,
                     }));
@@ -201,8 +238,8 @@ const EditProduct = () => {
                   bgColor="white"
                   name="size"
                   value={newProduct.size}
-                  onChange={e => {
-                    setNewProduct(old => ({
+                  onChange={(e) => {
+                    setNewProduct((old) => ({
                       ...old,
                       [e.target.name]: e.target.value,
                     }));
@@ -216,8 +253,8 @@ const EditProduct = () => {
                   bgColor="white"
                   name="provider"
                   value={newProduct.provider}
-                  onChange={e => {
-                    setNewProduct(old => ({
+                  onChange={(e) => {
+                    setNewProduct((old) => ({
                       ...old,
                       [e.target.name]: e.target.value,
                     }));
@@ -232,8 +269,8 @@ const EditProduct = () => {
                   bgColor="white"
                   name="quantity"
                   value={newProduct.quantity}
-                  onChange={e => {
-                    setNewProduct(old => ({
+                  onChange={(e) => {
+                    setNewProduct((old) => ({
                       ...old,
                       [e.target.name]: e.target.value,
                     }));
@@ -247,8 +284,8 @@ const EditProduct = () => {
                   bgColor="white"
                   name="price"
                   value={newProduct.price}
-                  onChange={e => {
-                    setNewProduct(old => ({
+                  onChange={(e) => {
+                    setNewProduct((old) => ({
                       ...old,
                       [e.target.name]: e.target.value,
                     }));
@@ -278,8 +315,8 @@ const EditProduct = () => {
                     name="figureType"
                     placeholder="Figure Type"
                     value={newProduct.figureType}
-                    onInput={e => {
-                      setNewProduct(old => {
+                    onInput={(e) => {
+                      setNewProduct((old) => {
                         delete old.genre;
                         return {
                           ...old,

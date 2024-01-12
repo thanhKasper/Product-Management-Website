@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Cookies from "js-cookie";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "../../components/sidebar";
@@ -33,6 +34,32 @@ const dateOption = {
 const OrderPage = () => {
   const [info, setInfo] = useState(null);
   const router = useRouter();
+  const [token, setToken] = useState("");
+  const checkAuth = () => {
+    try {
+      // Retrieve the token from the cookie
+      const storedToken = Cookies.get("token");
+
+      // Set the token in the component state
+      setToken(storedToken);
+
+      // Redirect to the login page if no token is found
+      if (!storedToken) {
+        router.push("/login");
+      }
+      return new Promise((resolve) => {
+        // Simulate asynchronous operation (e.g., API call)
+        setTimeout(() => {
+          console.log("checkAuth completed");
+          resolve();
+        }, 1000);
+      });
+    } catch (error) {
+      console.error("Error checking authentication:", error);
+      // Handle error (e.g., redirect to login page)
+      router.push("/login");
+    }
+  };
   const fetchData = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/other/orders`, {
@@ -48,7 +75,19 @@ const OrderPage = () => {
     }
   };
   useEffect(() => {
-    fetchData();
+    const fetchDataAndCheckAuth = async () => {
+      try {
+        // Wait for checkAuth to complete
+        await checkAuth();
+
+        // After checkAuth is done, proceed with fetchData
+        await fetchData();
+      } catch (error) {
+        console.error("Error during checkAuth or fetchData:", error);
+      }
+    };
+
+    fetchDataAndCheckAuth();
   }, []);
   // console.log(info);
   return (

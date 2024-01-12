@@ -1,16 +1,42 @@
 "use client";
 
 import Sidebar from "../../../components/sidebar";
-import { Button, Tag, useToast} from "@chakra-ui/react";
+import { Button, Tag, useToast } from "@chakra-ui/react";
 import { useRouter, useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 const ProductDetail = () => {
   const toast = useToast();
   const router = useRouter();
   const [info, setInfo] = useState(null);
   const params = useParams();
+  const [token, setToken] = useState("");
+  const checkAuth = () => {
+    try {
+      // Retrieve the token from the cookie
+      const storedToken = Cookies.get("token");
 
+      // Set the token in the component state
+      setToken(storedToken);
+
+      // Redirect to the login page if no token is found
+      if (!storedToken) {
+        router.push("/login");
+      }
+      return new Promise((resolve) => {
+        // Simulate asynchronous operation (e.g., API call)
+        setTimeout(() => {
+          console.log("checkAuth completed");
+          resolve();
+        }, 1000);
+      });
+    } catch (error) {
+      console.error("Error checking authentication:", error);
+      // Handle error (e.g., redirect to login page)
+      router.push("/login");
+    }
+  };
   const fetchData = async () => {
     try {
       if (params.productId.indexOf("LN") != -1) {
@@ -41,7 +67,19 @@ const ProductDetail = () => {
     }
   };
   useEffect(() => {
-    fetchData();
+    const fetchDataAndCheckAuth = async () => {
+      try {
+        // Wait for checkAuth to complete
+        await checkAuth();
+
+        // After checkAuth is done, proceed with fetchData
+        await fetchData();
+      } catch (error) {
+        console.error("Error during checkAuth or fetchData:", error);
+      }
+    };
+
+    fetchDataAndCheckAuth();
   }, []);
 
   const deleteProducts = async () => {
@@ -63,7 +101,8 @@ const ProductDetail = () => {
       console.log(error);
       toast({
         title: "Cannot Delete Product",
-        description: "You cannot delete this product because it is being referenced",
+        description:
+          "You cannot delete this product because it is being referenced",
         status: "error",
         duration: 1500,
         position: "bottom-right",
@@ -73,7 +112,7 @@ const ProductDetail = () => {
   };
   console.log(info);
 
-  const checkGenreorType = info => {
+  const checkGenreorType = (info) => {
     if (info.genre) {
       return info.genre;
     }

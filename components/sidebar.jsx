@@ -1,9 +1,15 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import SidebarOpt from "../utils/sidebarOpt";
-
+import Cookies from "js-cookie";
 const Sidebar = ({ currentPage }) => {
+  const router = useRouter();
+  const logout = () => {
+    Cookies.remove("token", { expires: 1 });
+    router.push("/login");
+  };
   return (
     <div
       id="side-bar"
@@ -80,7 +86,10 @@ const Sidebar = ({ currentPage }) => {
         </SidebarOpt>
       </ul>
 
-      <button className="bg-accent2-200 hover:bg-accent1-100 text-white w-full py-3 rounded-md font-semibold">
+      <button
+        className="bg-accent2-200 hover:bg-accent1-100 text-white w-full py-3 rounded-md font-semibold"
+        onClick={logout}
+      >
         Log Out
       </button>
     </div>
