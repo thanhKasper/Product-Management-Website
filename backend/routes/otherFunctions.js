@@ -5,7 +5,7 @@ const Customer = require("../models/customer.js");
 const { userVerification } = require("../middlewares/AuthMiddleware.js");
 router.get("/customers", userVerification, async (req, res) => {
   try {
-    const result = await Customer.find({}).sort({ _id: -1 });
+    const result = await Customer.find({}).sort({ _id: 1 });
 
     if (result) {
       res.status(200).json(result);
@@ -101,6 +101,46 @@ router.get("/providers", userVerification, async (req, res) => {
   }
 });
 router.get("/filterCustomers", async (req, res) => {
+  const { name, mail, phone } = req.query;
+
+  try {
+    const fullCus = await Customer.find({}).sort({ _id: -1 });
+    let filteredCus = fullCus;
+    let checke = 0;
+    if (name != "undefined" && name && checke == 0) {
+      filteredCus = fullCus.filter((s) =>
+        s.Cname.toLowerCase().includes(name.toLowerCase())
+      );
+    }
+    if (filteredCus.length == 0) {
+      (filteredCus = fullCus), (checke = 1);
+    }
+    let filteredCus1 = filteredCus;
+
+    if (mail != "undefined" && mail && checke == 0) {
+      filteredCus1 = filteredCus1.filter((s) =>
+        s.Email.toLowerCase().includes(mail.toLowerCase())
+      );
+    }
+    if (filteredCus1.length == 0) {
+      (filteredCus1 = fullCus), (checke = 1);
+    }
+    let filteredCus2 = filteredCus1;
+    if (phone != "undefined" && phone && checke == 0) {
+      filteredCus2 = filteredCus2.filter((s) =>
+        s.Receipt_Info.some((RIelement) =>
+          RIelement.Phone_Number.toLowerCase().includes(phone.toLowerCase())
+        )
+      );
+    }
+    if (filteredCus2.length == 0) filteredCus2 = fullCus;
+
+    res.json(filteredCus2);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
+router.get("/filterOrders", async (req, res) => {
   const { name, mail, phone } = req.query;
 
   console.log(name, mail, phone);
