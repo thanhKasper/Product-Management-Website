@@ -14,6 +14,7 @@ module.exports.userVerification = (req, res, next) => {
       const user = await Employee.findById(data._id);
       if (user) {
         res.locals.user = user; // Optionally, you can pass the user to the next middleware
+
         return next(); // Call next to proceed to the next middleware
       } else return res.json({ status: false });
     }
@@ -35,7 +36,8 @@ module.exports.userAuthorization = (req, res, next) => {
           .status(401)
           .json({ status: false, message: "This account is unauthorized" });
       if (user) {
-        res.locals.user = user; // Optionally, you can pass the user to the next middleware
+        res.locals.user = user;
+        // Optionally, you can pass the user to the next middleware
         return next(); // Call next to proceed to the next middleware
       } else return res.json({ status: false });
     }
