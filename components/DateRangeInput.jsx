@@ -102,12 +102,12 @@ const DateRangeInput = ({ inputName, curForm, onUpdateForm }) => {
             setBetweenChoice(old => [old[0], true]);
             onUpdateForm(old => {
               if (e.target.value === "") {
-                delete old[`${inputName}-start`];
+                delete old[`${inputName}-end`];
                 return { ...old };
               }
               return {
                 ...curForm,
-                [`${inputName}-start`]: e.target.value,
+                [`${inputName}-end`]: e.target.value,
               };
             });
           }}
