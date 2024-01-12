@@ -9,24 +9,27 @@ import {
 } from "@chakra-ui/react";
 import RangeWithOpt from "./RangeWithOpt";
 import DateRangeInput from "./DateRangeInput";
-
+import axios from "axios";
 const OrderSearchBar = ({ updateInfo }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
-  const [form, setForm] = useState({isDelivered: false});
+  const [form, setForm] = useState({ isDelivered: false });
 
   // apply the filter the send to the server
   const getFilterData = async () => {
-    const response = await axios.get();
-    updateInfo(response.data);
+    const response = await axios.get(
+      `http://localhost:8000/other/filterOrders?name=${form.searchKey}&price_start=${form["order-price-start"]}&price_end=${form["order-price-end"]}&quantity_start=${form["order-quantity-start"]}&quantity_end=${form["order-quantity-end"]}&date_start=${form["date-start"]}&date_end=${form["date-end"]}&isDelivered=${form.isDelivered}`
+    );
+    console.log(response);
+    // updateInfo(response.data);
   };
-  console.log(form)
+  console.log(form);
 
   return (
     <div className="w-full relative">
       <div id="product-search" className="flex mt-6">
         <div
           onClick={() => {
-            setCloseAdvancedFilter(old => !old);
+            setCloseAdvancedFilter((old) => !old);
           }}
           className="cursor-pointer w-56 bg-primary text-secondary-100 font-semibold flex flex-row gap-2 items-center px-3 rounded-s-md"
         >
@@ -38,8 +41,8 @@ const OrderSearchBar = ({ updateInfo }) => {
           borderRadius="none"
           variant="outline"
           placeholder="Search Customer's Order"
-          onChange={e =>
-            setForm(old => {
+          onChange={(e) =>
+            setForm((old) => {
               if (e.target.value === "") {
                 delete old.searchKey;
                 return { ...old };
@@ -68,7 +71,7 @@ const OrderSearchBar = ({ updateInfo }) => {
         }`}
       >
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             getFilterData();
           }}
@@ -115,8 +118,8 @@ const OrderSearchBar = ({ updateInfo }) => {
                 color="#D3EBF3"
                 className="mt-4 font-medium"
                 name="isDelivered"
-                onChange={e =>
-                  setForm(old => ({
+                onChange={(e) =>
+                  setForm((old) => ({
                     ...old,
                     [e.target.name]: e.target.checked,
                   }))
