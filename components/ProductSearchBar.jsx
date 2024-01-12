@@ -5,7 +5,7 @@ import RangeWithOpt from "./RangeWithOpt";
 import axios from "axios";
 
 // Search bar need useState from its parent
-const ProductSearchBar = ({ isShowOpt, token }) => {
+const ProductSearchBar = ({ isShowOpt, token, updateInfo }) => {
   const [closeAdvancedFilter, setCloseAdvancedFilter] = useState(true);
   const [form, setForm] = useState({});
   const [genre, setGenre] = useState([]);
@@ -22,6 +22,11 @@ const ProductSearchBar = ({ isShowOpt, token }) => {
   useEffect(() => {
     getGenre();
   }, []);
+
+  const fetchFilterData = async () => {
+    const response = await axios.get()
+    updateInfo(response.data)
+  }
   
   return (
     <div className="w-full relative">
@@ -51,6 +56,7 @@ const ProductSearchBar = ({ isShowOpt, token }) => {
           bgColor="#003756"
           _hover=""
           color="#D3EBF3"
+          onClick={fetchFilterData}
         >
           Search
         </Button>
@@ -64,7 +70,10 @@ const ProductSearchBar = ({ isShowOpt, token }) => {
         }`}
       >
         <form
-          action=""
+          onSubmit={e => {
+            e.preventDefault()
+            fetchFilterData()
+          }}
           className={`flex flex-col justify-between gap-5 h-full ${
             closeAdvancedFilter ? "hidden" : ""
           }`}

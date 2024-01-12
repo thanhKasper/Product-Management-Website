@@ -107,7 +107,7 @@ const ProductPage = () => {
           </Button>
         </div>
 
-        <ProductSearchBar isShowOpt={isShowOpt} token={token} />
+        <ProductSearchBar isShowOpt={isShowOpt} token={token} updateInfo={setInfo}/>
 
         {/* Table will need an array of objects fetched from api */}
         {info && (
