@@ -35,9 +35,8 @@ export default function Home() {
           Dream of Otakus
         </h1>
         <p className="text-white w-3/4 text-center text-base mt-6">
-          Lorem ipsum dolor sit amet consectetur. Porttitor rhoncus placerat
-          vivamus pellentesque maecenas natoque. Enim pellentesque et faucibus
-          mauris.
+          Welcome to the administration system, please click Get Started to
+          continue to the next step
         </p>
         <Link
           href="/products"
