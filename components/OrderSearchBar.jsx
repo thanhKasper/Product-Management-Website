@@ -20,7 +20,7 @@ const OrderSearchBar = ({ updateInfo }) => {
       `http://localhost:8000/other/filterOrders?name=${form.searchKey}&price_start=${form["order-price-start"]}&price_end=${form["order-price-end"]}&quantity_start=${form["order-quantity-start"]}&quantity_end=${form["order-quantity-end"]}&date_start=${form["date-start"]}&date_end=${form["date-end"]}&isDelivered=${form.isDelivered}`
     );
     console.log(response);
-    // updateInfo(response.data);
+    updateInfo(response.data);
   };
   console.log(form);
 
@@ -134,7 +134,7 @@ const OrderSearchBar = ({ updateInfo }) => {
             <Button size="sm" colorScheme="red">
               Reset
             </Button>
-            <Button size="sm" colorScheme="messenger" type='submit'>
+            <Button size="sm" colorScheme="messenger" type="submit">
               Apply
             </Button>
           </div>
