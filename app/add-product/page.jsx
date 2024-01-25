@@ -34,7 +34,7 @@ const AddProduct = () => {
       if (!storedToken) {
         router.push("/login");
       }
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         // Simulate asynchronous operation (e.g., API call)
         setTimeout(() => {
           console.log("checkAuth completed");
@@ -74,8 +74,7 @@ const AddProduct = () => {
     fetchDataAndCheckAuth();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async e => {
     try {
       if (newProduct.type === "LN" && newProduct.genre.length === 0) {
         console.log("The genre must have value");
@@ -154,7 +153,7 @@ const AddProduct = () => {
   return (
     <section
       className="flex"
-      onClick={(e) => {
+      onClick={e => {
         const eleID = e.target?.attributes[0]?.value;
         if (eleID == "genre-input") {
           setShowOpt(true);
@@ -168,8 +167,10 @@ const AddProduct = () => {
         <h1 className="font-bold text-5xl text-primary">Add Product</h1>
         <form
           action=""
+          onSubmit={e => {
+            e.preventDefault();
+          }}
           className="mt-10 flex flex-col gap-4 w-10/12 mx-auto"
-          onSubmit={handleSubmit}
           autoComplete="off"
         >
           <div className="flex gap-2">
@@ -180,8 +181,8 @@ const AddProduct = () => {
                 placeholder="Choose option"
                 name="type"
                 required
-                onInput={(e) => {
-                  setNewProduct((old) => ({
+                onInput={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -198,8 +199,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="name"
                 required
-                onChange={(e) => {
-                  setNewProduct((old) => ({
+                onChange={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -215,8 +216,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="size"
                 required
-                onChange={(e) => {
-                  setNewProduct((old) => ({
+                onChange={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -230,8 +231,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="provider"
                 required
-                onChange={(e) => {
-                  setNewProduct((old) => ({
+                onChange={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -245,8 +246,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="quantity"
                 required
-                onChange={(e) => {
-                  setNewProduct((old) => ({
+                onChange={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -260,8 +261,8 @@ const AddProduct = () => {
                 bgColor="white"
                 name="price"
                 required
-                onChange={(e) => {
-                  setNewProduct((old) => ({
+                onChange={e => {
+                  setNewProduct(old => ({
                     ...old,
                     [e.target.name]: e.target.value,
                   }));
@@ -291,8 +292,8 @@ const AddProduct = () => {
                   name="figureType"
                   required
                   placeholder="Figure Type"
-                  onInput={(e) => {
-                    setNewProduct((old) => {
+                  onInput={e => {
+                    setNewProduct(old => {
                       delete old.genre;
                       return {
                         ...old,
@@ -316,7 +317,12 @@ const AddProduct = () => {
             >
               Cancel
             </Button>
-            <Button type="submit" colorScheme="green">
+            <Button
+              onClick={() => {
+                handleSubmit();
+              }}
+              colorScheme="green"
+            >
               Submit
             </Button>
           </div>

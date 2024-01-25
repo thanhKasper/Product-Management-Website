@@ -187,6 +187,7 @@ router.get("/filterOrders", async (req, res) => {
 
     let finalResult = [];
     for (const filteredOrder of fullOrders) {
+      console.log(filteredOrder)
       if (
         name != "undefined" &&
         filteredOrder.customer.Cname.indexOf(name) == -1
@@ -200,8 +201,8 @@ router.get("/filterOrders", async (req, res) => {
           filteredOrder.products_book,
           filteredOrder.products_figure
         ) +
-          filteredOrder.delivery_price <
-          price_start
+        filteredOrder.delivery_price <
+        price_start
       ) {
         continue;
       }
@@ -211,8 +212,8 @@ router.get("/filterOrders", async (req, res) => {
           filteredOrder.products_book,
           filteredOrder.products_figure
         ) +
-          filteredOrder.delivery_price >
-          price_end
+        filteredOrder.delivery_price >
+        price_end
       ) {
         continue;
       }
@@ -239,7 +240,6 @@ router.get("/filterOrders", async (req, res) => {
       }
       finalResult.push(filteredOrder);
     }
-
     res.json(finalResult);
   } catch (error) {
     res.json({ error: error.message });
@@ -313,7 +313,6 @@ router.get("/filterProducts", async (req, res) => {
       }
       finalResult.push(filteredProduct);
     }
-
     res.json(finalResult);
   } catch (error) {
     res.json({ error: error.message });
