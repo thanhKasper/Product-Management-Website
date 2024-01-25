@@ -15,7 +15,7 @@ const Sidebar = ({ currentPage }) => {
       id="side-bar"
       className="bg-primary h-screen w-1/5 flex flex-col items-center justify-between py-6 px-5"
     >
-      <h2 className="text-4xl font-bold text-white">ADMIN</h2>
+      <h2 className="text-4xl font-bold text-white">L&F</h2>
 
       <ul className="w-full flex flex-col gap-3">
         {/* This is product page */}
