@@ -102,10 +102,6 @@ const MultivaluesAutocomplete = ({
                 setOptList(old => {
                   let newOptionList = [...old];
                   if (old.indexOf(val) == -1) newOptionList = [...old, val];
-                  // onUpdateForm(oldForm => {
-                  //   delete oldForm.figureType;
-                  //   return { ...oldForm, genre: newOptionList };
-                  // });
                   return newOptionList;
                 });
               }}

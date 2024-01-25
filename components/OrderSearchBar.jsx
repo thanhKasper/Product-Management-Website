@@ -134,7 +134,7 @@ const OrderSearchBar = ({ updateInfo }) => {
             <Button size="sm" colorScheme="red">
               Reset
             </Button>
-            <Button size="sm" colorScheme="messenger">
+            <Button size="sm" colorScheme="messenger" type='submit'>
               Apply
             </Button>
           </div>
