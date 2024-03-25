@@ -25,7 +25,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://https://book-store-two-cyan.vercel.app/login",
+        "https://book-store-two-cyan.vercel.app/login",
         {
           ssn,
           password,
