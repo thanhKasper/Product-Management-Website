@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "server": "nodemon ./backend/server.js"
+    "server": "node ./backend/server.js"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.2.0",
