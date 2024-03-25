@@ -25,7 +25,7 @@ router.get("/genre", userVerification, async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-router.get("/", userVerification, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const boks = await Book.find({}).sort({ id: 1 });
     const figs = await Figure.find({}).sort({ id: 1 });
