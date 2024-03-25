@@ -59,7 +59,7 @@ const ProductPage = () => {
         },*/
         }
       );
-
+      console.log(response)
       setInfo(response.data);
     } catch (error) {
       console.log(error);
