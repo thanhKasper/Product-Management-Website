@@ -35,7 +35,7 @@ const ProductPage = () => {
       if (!storedToken) {
         router.push("/login");
       }
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         // Simulate asynchronous operation (e.g., API call)
         setTimeout(() => {
           console.log("checkAuth completed");
@@ -50,16 +50,13 @@ const ProductPage = () => {
   };
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/book/`,
-        {
-          withCredentials: true,
-          /*  headers: {
+      const response = await axios.get(`http://localhost:8000/book/`, {
+        withCredentials: true,
+        headers: {
           Authorization: `Bearer ${token}`,
-        },*/
-        }
-      );
-      console.log(response)
+        },
+      });
+      console.log(response);
       setInfo(response.data);
     } catch (error) {
       console.log(error);
@@ -85,7 +82,7 @@ const ProductPage = () => {
   return (
     <section
       className="flex bg-secondary-100"
-      onClick={(e) => {
+      onClick={e => {
         const eleID = e.target?.attributes[0]?.value;
         if (eleID == "genre-input") {
           setIsShowOpt(true);
@@ -110,7 +107,11 @@ const ProductPage = () => {
           </Button>
         </div>
 
-        <ProductSearchBar isShowOpt={isShowOpt} token={token} updateInfo={setInfo}/>
+        <ProductSearchBar
+          isShowOpt={isShowOpt}
+          token={token}
+          updateInfo={setInfo}
+        />
 
         {/* Table will need an array of objects fetched from api */}
         {info && (
