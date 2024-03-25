@@ -50,12 +50,15 @@ const ProductPage = () => {
   };
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/book/`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `https://book-store-two-cyan.vercel.app/book/`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(response);
       setInfo(response.data);
     } catch (error) {
