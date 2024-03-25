@@ -11,12 +11,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-TLT11GWHTW"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments)}
+        gtag('js', new Date());
+
+        gtag('config', 'G-TLT11GWHTW');
+      </script>
       <body>
         <AppRouterCacheProvider>
           <Providers>{children}</Providers>
         </AppRouterCacheProvider>
       </body>
-      <GoogleAnalytics gaId="G-TLT11GWHTW" />
     </html>
   );
 }
