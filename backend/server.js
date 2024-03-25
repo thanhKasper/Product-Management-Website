@@ -11,7 +11,7 @@ require("dotenv").config();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:8000", "http://localhost:4999"],
+    origin: ["http://localhost:8000", "http://localhost:4999", "https://book-store-two-cyan.vercel.app"],
     methods: ["GET", "PUT", "POST", "DELETE"],
     credentials: true,
   })
