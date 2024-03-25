@@ -51,7 +51,7 @@ const ProductPage = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `https://book-store-two-cyan.vercel.app/book/`,
+        `http://localhost:8000/book/`,
         {
           withCredentials: true,
           /*  headers: {
